@@ -1,3 +1,26 @@
+# VS
+*.ipch
+*.log
+*.exe.recipe
+*.ilk
+*.pdb
+*.command.1.tlog
+*.lastbuildstate
+*.txt
+*.idb
+*.pdb
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.VC.db
+*.read.1.tlog
+*.write.1.tlog
+*.VC.db-shm
+*.VC.db-wal
+*.VC.opendb
+
 # Prerequisites
 *.d
 
