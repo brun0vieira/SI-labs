@@ -36,7 +36,7 @@ int getBitValue(uInt8 value, uInt8 n_bit)
     return(value & (1 << n_bit));
 }
 
-// **************************************** xx fucntions ****************************************
+// **************************************** xx functions ****************************************
 void moveXRight()
 {
     uInt8 p = readDigitalU8(4);
@@ -91,9 +91,60 @@ void gotoX(int x_dest) {
     stopX();
 }
 
-// **************************************** yy fucntions ****************************************
+// **************************************** yy functions ****************************************
 
-// **************************************** zz fucntions ****************************************
+void moveYIn()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 3, 0);          // bit_3 a 0 
+    setBitValue(&p, 4, 1);          // bit_4 a 1
+    writeDigitalU8(4, p);
+}
+
+void moveYOut()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 4, 0);          // bit_4 a 0
+    setBitValue(&p, 3, 1);          // bit_3 a 1
+    writeDigitalU8(4, p);
+}
+
+void stopY() {
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 4, 0);          // bit_4 a 0
+    setBitValue(&p, 3, 0);          // bit_3 a 0
+    writeDigitalU8(4, p);
+}
+
+int getYPosition()
+{
+    int bb[2] = { 4,3 };
+    int port;
+    
+    port = readDigitalU8(1);           //port1
+    
+    for (int i = 0; i < 2; i++) {
+        if (getBitValue(port, bb[i]))  // active high
+            return i + 1;
+    }
+    
+    return(-1);
+}
+
+void gotoY(int y_dest) {
+    int current = getYPosition();
+    if (y_dest > current)
+        moveYIn();
+    else if (y_dest < current)
+        moveYOut();
+    //   while position not reached    
+    while (getYPosition() != y_dest) {
+        Sleep(1);
+    }
+    stopY();
+}
+
+// **************************************** zz functions ****************************************
 
 
 int main()
@@ -116,6 +167,9 @@ int main()
 
     int tecla = 0;
 
+    gotoX(7);
+    gotoY(2);
+
     while (tecla != 27) {
 
         //tecla = _getch();
@@ -126,8 +180,7 @@ int main()
         //if (tecla == 's')
         //    stopX();
         
-        gotoX(10);
-
+        
         //if (tecla == 'o')    
             //showStorageState(); // show every storage state
     }
