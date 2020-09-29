@@ -145,7 +145,59 @@ void gotoY(int y_dest) {
 }
 
 // **************************************** zz functions ****************************************
+void moveZUp()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 6, 0);          // bit_6 a 0
+    setBitValue(&p, 5, 1);          // bit_5 a 1
+    writeDigitalU8(4, p);
+}
 
+void moveZDown()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 5, 0);          // bit_5 a 0
+    setBitValue(&p, 6, 1);          // bit_6 a 1
+    writeDigitalU8(4, p);
+}
+
+void stopZ() {
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 5, 0);          // bit_0 a 0
+    setBitValue(&p, 6, 0);          // bit_1 a 0
+    writeDigitalU8(4, p);
+}
+
+int getZPosition()
+{
+    //pp e bb fazem a correspondência dos bits com os ports
+    int pp[5] = { 0,0,0,0,1 };
+    int bb[5] = { 6,4,2,0,6 };
+    int ports[2];
+
+    ports[0] = readDigitalU8(2);            //port2
+    ports[1] = readDigitalU8(1);            //port1
+
+    for (int i = 0; i < 5; i++) {
+        if (!getBitValue(ports[pp[i]], bb[i]))
+            return i + 1;
+    }
+
+    return(-1);
+}
+
+void gotoZ(int z_dest) {
+    int current = getZPosition();
+    if (z_dest > current)
+        moveZUp();
+    else if (z_dest < current)
+        moveZDown();
+    //   while position not reached    
+    while (getZPosition() != z_dest) {
+        Sleep(1);
+    }
+    stopZ();
+}
 
 int main()
 {
@@ -168,7 +220,9 @@ int main()
     int tecla = 0;
 
     gotoX(7);
+    gotoZ(3);
     gotoY(2);
+    
 
     while (tecla != 27) {
 
