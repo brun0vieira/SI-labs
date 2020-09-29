@@ -123,11 +123,24 @@ void moveYOut()
     writeDigitalU8(4, p);
 }
 
-void stopY() {
+void StopYIn()
+{
     uInt8 p = readDigitalU8(4);
-    setBitValue(&p, 4, 0);          // bit_4 a 0
-    setBitValue(&p, 3, 0);          // bit_3 a 0
+    setBitValue(&p, 4, 0);   
     writeDigitalU8(4, p);
+}
+
+void StopYOut()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 3, 0);
+    writeDigitalU8(4, p);
+}
+
+void stopY() 
+{
+    StopYIn();
+    StopYOut();
 }
 
 int getYPosition()
@@ -175,11 +188,23 @@ void moveZDown()
     writeDigitalU8(4, p);
 }
 
-void stopZ() {
+void StopZUp()
+{
     uInt8 p = readDigitalU8(4);
-    setBitValue(&p, 5, 0);          // bit_0 a 0
-    setBitValue(&p, 6, 0);          // bit_1 a 0
+    setBitValue(&p, 5, 0);
     writeDigitalU8(4, p);
+}
+
+void StopZDown()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 6, 0);
+    writeDigitalU8(4, p);
+}
+
+void stopZ() {
+    StopZUp();
+    StopZDown();
 }
 
 int getZPosition()
@@ -233,7 +258,6 @@ void stopAll()
 
 int * getAllPositions() 
 {
-    int x, y, z;
     int position[3];
     position[0]= getXPosition();
     position[1] = getYPosition();
@@ -257,14 +281,21 @@ void checkLimits()
         if (x == 10)
             stopXRight();
 
-        if (y == 1 || x == 2) 
-            stopX();
+        if (y == 2)
+            StopYIn();
 
-        if (z == 1 || x == 5)
-            stopZ();
+        if (y == 1)
+            StopYOut();
 
-        Sleep(10);
-        printf("x=%d y=%d z=%d", x, y, z);
+        if (z == 1)
+            StopZDown();
+
+        if (z == 5)
+            StopZUp();
+
+        Sleep(100);
+
+        printf("y=%d", y);
     }
 
 }
@@ -295,19 +326,32 @@ int main()
 
     std::thread first(checkLimits);
 
-    std::cout << "main and checkLimits are now executing concurrently...\n";
+    std::cout << "\n\nmain and checkLimits are now executing concurrently...\n";
 
     while (tecla != 27) {
 
         printf("entrou aqui");
 
         tecla = _getch();
+        
         if (tecla == 'd')
             moveXRight();
         if (tecla == 'a')
             moveXLeft();
+
+        if (tecla == 'w')
+            moveZUp();
         if (tecla == 's')
-            stopX();
+            moveZDown();
+
+        if (tecla == 'i')
+            moveYIn();
+        if (tecla == 'o')
+            moveYOut();
+
+
+        if (tecla == 'x')
+            stopAll();
         
         //if (tecla == 'o')    
             //showstoragestate(); // show every storage state
