@@ -5,6 +5,7 @@
 
 
 #include <iostream>
+#include <thread>
 
 #include <stdio.h>
 #include <conio.h>
@@ -53,11 +54,24 @@ void moveXLeft()
     writeDigitalU8(4, p);
 }
 
-void stopX() {
+void stopXRight() 
+{
     uInt8 p = readDigitalU8(4);
-    setBitValue(&p, 0, 0);          // bit_0 a 0
-    setBitValue(&p, 1, 0);          // bit_1 a 0
+    setBitValue(&p, 0, 0);          
     writeDigitalU8(4, p);
+}
+
+void stopXLeft()
+{
+    uInt8 p = readDigitalU8(4);
+    setBitValue(&p, 1, 0);          
+    writeDigitalU8(4, p);
+}
+
+void stopX() 
+{
+    stopXRight();
+    stopXLeft();
 }
 
 int getXPosition()
@@ -210,6 +224,53 @@ void randomPosition()
     gotoY(rand() % 2 + 1);
 }
 
+void stopAll()
+{
+    stopX();
+    stopY();
+    stopZ();
+}
+
+int * getAllPositions() 
+{
+    int x, y, z;
+    int position[3];
+    position[0]= getXPosition();
+    position[1] = getYPosition();
+    position[2] = getZPosition();
+    return position;
+}
+
+void checkLimits() 
+{
+    int x, y, z;
+    int * position;
+    
+    while (1) {
+
+        position = getAllPositions();
+        x = position[0]; y = position[1]; z = position[2];
+
+        if (x == 1)
+            stopXLeft();
+
+        if (x == 10)
+            stopXRight();
+
+        if (y == 1 || x == 2) 
+            stopX();
+
+        if (z == 1 || x == 5)
+            stopZ();
+
+        Sleep(10);
+        printf("x=%d y=%d z=%d", x, y, z);
+    }
+
+}
+
+
+
 int main()
 {
     printf("\ngo to browser and open address: http://localhost:8081/ss.html");
@@ -230,22 +291,26 @@ int main()
 
     int tecla = 0;
 
-    randomPosition();
+    //randomPosition();
 
+    std::thread first(checkLimits);
+
+    std::cout << "main and checkLimits are now executing concurrently...\n";
 
     while (tecla != 27) {
 
-        //tecla = _getch();
-        //if (tecla == 'd')
-        //    moveXRight();
-        //if (tecla == 'a')
-        //    moveXLeft();
-        //if (tecla == 's')
-        //    stopX();
-        
+        printf("entrou aqui");
+
+        tecla = _getch();
+        if (tecla == 'd')
+            moveXRight();
+        if (tecla == 'a')
+            moveXLeft();
+        if (tecla == 's')
+            stopX();
         
         //if (tecla == 'o')    
-            //showStorageState(); // show every storage state
+            //showstoragestate(); // show every storage state
     }
 
     closeChannels();
