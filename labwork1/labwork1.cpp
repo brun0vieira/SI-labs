@@ -13,7 +13,7 @@
 #include <conio.h>
 #include <stdio.h>
 #include <windows.h>
-
+#include <time.h>
 
 extern "C" { 
     // observe your project contents.  We are mixing C files with cpp ones.
@@ -199,6 +199,17 @@ void gotoZ(int z_dest) {
     stopZ();
 }
 
+ // *********************************************************************************************
+
+void randomPosition()
+{
+    srand(time(NULL));
+
+    gotoX(rand() % 10 + 1);
+    gotoZ(rand() % 5 + 1);
+    gotoY(rand() % 2 + 1);
+}
+
 int main()
 {
     printf("\ngo to browser and open address: http://localhost:8081/ss.html");
@@ -219,10 +230,8 @@ int main()
 
     int tecla = 0;
 
-    gotoX(7);
-    gotoZ(3);
-    gotoY(2);
-    
+    randomPosition();
+
 
     while (tecla != 27) {
 
