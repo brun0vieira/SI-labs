@@ -54,3 +54,4 @@
 *.out
 *.app
 /Supervisor/target/
+/supervisor/target/
