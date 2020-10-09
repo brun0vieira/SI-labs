@@ -45,4 +45,11 @@ void moveRightStationInside();
 void moveRightStationOutside();
 void stopRightStation();
 
+int* getAllPositions();
+void gotoX(int x_dest);
+void gotoY(int y_dest);
+void gotoZ(int z_dest);
+void randomPosition();
+void stopAll();
+
 #endif

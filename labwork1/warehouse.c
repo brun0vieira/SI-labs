@@ -208,3 +208,67 @@ int* getAllPositions()
 	position[2] = getZPosition();
 	return position;
 }
+
+void gotoX(int x_dest) {
+	int current = getXPosition();
+	if (x_dest > current)
+		moveXRight();
+	else if (x_dest < current)
+		moveXLeft();
+	//   while position not reached    
+	while (getXPosition() != x_dest) {
+		Sleep(1);
+	}
+	stopX();
+}
+
+// **************************************** yy functions ****************************************
+
+
+
+void gotoY(int y_dest) {
+	int current = getYPosition();
+	if (y_dest > current)
+		moveYIn();
+	else if (y_dest < current)
+		moveYOut();
+	//   while position not reached    
+	while (getYPosition() != y_dest) {
+		Sleep(1);
+	}
+	stopY();
+}
+
+// **************************************** zz functions ****************************************
+
+
+void gotoZ(int z_dest) {
+	int current = getZPosition();
+	if (z_dest > current)
+		moveZUp();
+	else if (z_dest < current)
+		moveZDown();
+	//   while position not reached    
+	while (getZPosition() != z_dest) {
+		Sleep(1);
+	}
+	stopZ();
+}
+
+// *********************************************************************************************
+
+void randomPosition()
+{
+	srand(time(NULL));
+
+	gotoX(rand() % 10 + 1);
+	gotoZ(rand() % 5 + 1);
+	gotoY(rand() % 2 + 1);
+}
+
+void stopAll()
+{
+	stopX();
+	stopY();
+	stopZ();
+}
