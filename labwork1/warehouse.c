@@ -3,15 +3,14 @@
 
 
 void setBitValue(uInt8* variable, int n_bit, int new_value_bit)
-// given a byte value, set the n bit to value
 {
 	uInt8  mask_on = (uInt8)(1 << n_bit);
 	uInt8  mask_off = ~mask_on;
 	if (new_value_bit)  *variable |= mask_on;
 	else                *variable &= mask_off;
 }
+
 int getBitValue(uInt8 value, uInt8 n_bit)
-// given a byte value, returns the value of bit n
 {
 	return(value & (1 << n_bit));
 }
@@ -258,4 +257,82 @@ int* getAllPositions()
 	position[1] = getYPosition();
 	position[2] = getZPosition();
 	return position;
+}
+
+//implementar
+
+int getXMoving() 
+{
+	return 1;
+}
+
+int getYMoving() {
+	return 1;
+}
+
+
+int getZMoving() {
+	return 1;
+}
+
+
+int getLeftStationMoving(){
+	return 1;
+}
+
+int getRightStationMoving() {
+	return 1;
+}
+
+
+bool isAtZUp() 
+{
+
+}
+
+bool isAtZDown() 
+{
+
+}
+
+bool isPartInCage() 
+{
+
+}
+
+bool isPartOnLeftStation() 
+{
+
+}
+
+bool isPartOnRightStation() 
+{
+
+}
+
+
+void moveLeftStationInside()
+{
+	
+}
+
+void moveLeftStationOutside() 
+{
+	
+}
+
+void stopLeftLtation() {
+	
+}
+
+void moveRightStationInside() {
+
+}
+
+void moveRightStationOutside() {
+	
+}
+
+void stopRightStation() {
+
 }

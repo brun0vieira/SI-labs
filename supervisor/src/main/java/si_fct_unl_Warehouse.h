@@ -84,8 +84,8 @@ JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getXPosition
  * Method:    gotoX
  * Signature: (I)V
  */
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoX
-  (JNIEnv *, jobject, jint);
+//JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoX
+//  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     si_fct_unl_Warehouse
@@ -140,8 +140,8 @@ JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getYPosition
  * Method:    gotoY
  * Signature: (I)V
  */
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoY
-  (JNIEnv *, jobject, jint);
+//JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoY
+//  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     si_fct_unl_Warehouse
@@ -196,8 +196,8 @@ JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getZPosition
  * Method:    gotoZ
  * Signature: (I)V
  */
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoZ
-  (JNIEnv *, jobject, jint);
+//JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoZ
+//  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     si_fct_unl_Warehouse

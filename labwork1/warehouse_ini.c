@@ -41,7 +41,7 @@ JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopX(JNIEnv* env, jobject obj)
 
 
 JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getXPosition(JNIEnv* env, jobject obj){
-	return getXPosition;
+	return getXPosition();
 }
 
 
