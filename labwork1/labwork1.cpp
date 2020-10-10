@@ -21,46 +21,58 @@ extern "C" {
     // Therefore, inside cpp files, we need to tell which functions are written in C.
     // That is why we use extern "C"  directive
 #include <interface.h>
-//#include <warehouse.h>
+#include <warehouse.h>
 }
 
 
+void setBitValue(uInt8* variable, int n_bit, int new_value_bit)
+{
+    uInt8  mask_on = (uInt8)(1 << n_bit);
+    uInt8  mask_off = ~mask_on;
+    if (new_value_bit)  *variable |= mask_on;
+    else                *variable &= mask_off;
+}
+
+int getBitValue(uInt8 value, uInt8 n_bit)
+{
+    return(value & (1 << n_bit));
+}
 
 
-//void checkLimits() 
-//{
-//    int x, y, z;
-//    int * position;
-//    
-//    while (1) {
-//
-//        position = getAllPositions();
-//        x = position[0]; y = position[1]; z = position[2];
-//
-//        if (x == 1)
-//            stopXLeft();
-//
-//        if (x == 10)
-//            stopXRight();
-//
-//        if (y == 2)
-//            StopYIn();
-//
-//        if (y == 1)
-//            StopYOut();
-//
-//        if (z == 1)
-//            StopZDown();
-//
-//        if (z == 5)
-//            StopZUp();
-//
-//        Sleep(100);
-//
-//        printf("y=%d", y);
-//    }
-//
-//}
+void checkLimits() 
+{
+    int x, y, z;
+    int * position;
+    
+    while (1) {
+
+        position = getAllPositions();
+        x = position[0]; y = position[1]; z = position[2];
+
+        if (x == 1)
+            stopXLeft();
+
+        if (x == 10)
+            stopXRight();
+
+        if (y == 2)
+            StopYIn();
+
+        if (y == 1)
+            StopYOut();
+
+        if (z == 1)
+            StopZDown();
+
+        if (z == 5)
+            StopZUp();
+
+        Sleep(100);
+
+        printf("y=%d", y);
+    }
+
+}
 
 
 
@@ -68,28 +80,26 @@ int main()
 {
     printf("\ngo to browser and open address: http://localhost:8081/ss.html");
 
-    //initializeHardwarePorts();
+    initializeHardwarePorts();
 
     char tecla = 0;
 
-    //randomPosition();
-
-    //std::thread first(checkLimits);
+    std::thread first(checkLimits);
     std::cout << "\n\nmain and checkLimits are now executing concurrently...\n";
 
     while (tecla != '0') {
 
         printf("entrou aqui");
 
-        //switch (tecla) {
-        //case 'd': moveXRight(); break;
-        //case 'a': moveXLeft(); break;
-        //case 'w': moveZUp(); break;
-        //case 's': moveZDown(); break;
-        //case 'i': moveYIn(); break;
-        //case 'o': moveYOut(); break;
-        //case 'x': stopAll(); 
-        //}
+        switch (tecla) {
+        case 'd': moveXRight(); break;
+        case 'a': moveXLeft(); break;
+        case 'w': moveZUp(); break;
+        case 's': moveZDown(); break;
+        case 'i': moveYInside(); break;
+        case 'o': moveYOutside(); break;
+        case 'x': stopAll(); 
+        }
 
         //if (tecla == 'o')    
             //showstoragestate(); // show every storage state
