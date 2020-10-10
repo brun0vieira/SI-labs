@@ -25,20 +25,6 @@ extern "C" {
 }
 
 
-void setBitValue(uInt8* variable, int n_bit, int new_value_bit)
-{
-    uInt8  mask_on = (uInt8)(1 << n_bit);
-    uInt8  mask_off = ~mask_on;
-    if (new_value_bit)  *variable |= mask_on;
-    else                *variable &= mask_off;
-}
-
-int getBitValue(uInt8 value, uInt8 n_bit)
-{
-    return(value & (1 << n_bit));
-}
-
-
 void checkLimits() 
 {
     int x, y, z;

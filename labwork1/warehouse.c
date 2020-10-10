@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <windows.h>
 #include <interface.h>
-
+#include <time.h>
 
 
 void initializeHardwarePorts()
@@ -21,6 +21,20 @@ void initializeHardwarePorts()
 	writeDigitalU8(5, 0);
 
 }
+
+void setBitValue(uInt8* variable, int n_bit, int new_value_bit)
+{
+	uInt8  mask_on = (uInt8)(1 << n_bit);
+	uInt8  mask_off = ~mask_on;
+	if (new_value_bit)  *variable |= mask_on;
+	else                *variable &= mask_off;
+}
+
+int getBitValue(uInt8 value, uInt8 n_bit)
+{
+	return(value & (1 << n_bit));
+}
+
 
 int getXPosition()
 {
@@ -189,8 +203,8 @@ void StopZDown()
 
 void stopZ()
 {
-StopZUp();
-StopZDown();
+	StopZUp();
+	StopZDown();
 }
 
 void moveLeftStationInside();
@@ -229,9 +243,9 @@ void gotoX(int x_dest) {
 void gotoY(int y_dest) {
 	int current = getYPosition();
 	if (y_dest > current)
-		moveYIn();
+		moveYInside();
 	else if (y_dest < current)
-		moveYOut();
+		moveYOutside();
 	//   while position not reached    
 	while (getYPosition() != y_dest) {
 		Sleep(1);
@@ -272,3 +286,6 @@ void stopAll()
 	stopY();
 	stopZ();
 }
+
+
+

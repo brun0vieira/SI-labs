@@ -4,8 +4,6 @@
 
 #include <stdbool.h>
 
-
-
 void initializeHardwarePorts();
 
 int getXPosition();
@@ -51,5 +49,8 @@ void gotoY(int y_dest);
 void gotoZ(int z_dest);
 void randomPosition();
 void stopAll();
+
+void setBitValue();
+int getBitValue();
 
 #endif
