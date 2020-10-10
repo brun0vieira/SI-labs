@@ -55,7 +55,6 @@ void checkLimits()
 
         Sleep(100);
 
-        printf("y=%d", y);
     }
 
 }
@@ -75,18 +74,18 @@ int main()
 
     while (tecla != '0') {
 
-        printf("entrou aqui");
+        tecla = _getch();
 
         switch (tecla) {
-        case 'd': moveXRight(); break;
-        case 'a': moveXLeft(); break;
-        case 'w': moveZUp(); break;
-        case 's': moveZDown(); break;
-        case 'i': moveYInside(); break;
-        case 'o': moveYOutside(); break;
-        case 'x': stopAll(); 
+            case 'd': moveXRight(); break;
+            case 'a': moveXLeft(); break;
+            case 'w': moveZUp(); break;
+            case 's': moveZDown(); break;
+            case 'i': moveYInside(); break;
+            case 'o': moveYOutside(); break;
+            case 'x': stopAll(); 
         }
-
+        
         //if (tecla == 'o')    
             //showstoragestate(); // show every storage state
     }
