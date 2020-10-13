@@ -10,6 +10,12 @@ package si.fct.unl;
  * @author Asus
  */
 public class Warehouse {
+    
+    static 
+    {
+        System.load("C:\\si\\SI-labwork1\\labwork1\\x64\\Debug\\labwork1.dll");
+    }
+    
     native public void initializeHardwarePorts();
 
     native public int getXPosition();
