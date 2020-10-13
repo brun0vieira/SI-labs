@@ -19,6 +19,9 @@ public class App extends Application {
         
         Warehouse warehouse = new Warehouse();
         warehouse.initializeHardwarePorts();
+        
+        WebServer.startServer();
+        
         Button buttonXRight = new Button("x-right");
         Button buttonXLeft = new Button("x-left");
         Button buttonXStop = new Button("x-stop");
