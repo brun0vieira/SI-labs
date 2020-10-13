@@ -87,16 +87,48 @@ int getZPosition()
 	return(-1);
 }
 
-int getXMoving();
-int getYMoving();
-int getZMoving();
-int getLeftStationMoving();
-int getRightStationMoving();
-bool isAtZUp();
-bool isAtZDown();
-bool isPartInCage();
-bool isPartOnLeftStation();
-bool isPartOnRightStation();
+int getXMoving() 
+{
+	return 1;
+}
+
+int getYMoving()
+{
+	return 1;
+}
+int getZMoving()
+{
+	return 1;
+}
+int getLeftStationMoving()
+{
+	return 1;
+}
+
+int getRightStationMoving() {
+	return 1;
+}
+
+bool isAtZUp()
+{
+	return false;
+}
+bool isAtZDown()
+{
+	return false;
+}
+bool isPartInCage()
+{
+	return false;
+}
+bool isPartOnLeftStation()
+{
+	return false;
+}
+bool isPartOnRightStation()
+{
+	return false;
+}
 
 
 void moveXRight()
@@ -207,12 +239,30 @@ void stopZ()
 	StopZDown();
 }
 
-void moveLeftStationInside();
-void moveLeftStationOutside();
-void stopLeftLtation();
-void moveRightStationInside();
-void moveRightStationOutside();
-void stopRightStation();
+void moveLeftStationInside()
+{
+
+}
+void moveLeftStationOutside()
+{
+
+}
+void stopLeftLtation()
+{
+
+}
+void moveRightStationInside()
+{
+
+}
+void moveRightStationOutside()
+{
+
+}
+void stopRightStation()
+{
+
+}
 
 int* getAllPositions()
 {

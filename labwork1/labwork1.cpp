@@ -24,7 +24,6 @@ extern "C" {
 #include <warehouse.h>
 }
 
-
 void checkLimits() 
 {
     int x, y, z;
@@ -58,8 +57,6 @@ void checkLimits()
     }
 
 }
-
-
 
 int main()
 {

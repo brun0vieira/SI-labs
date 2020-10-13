@@ -1,8 +1,7 @@
 #include <jni.h>
-#include <jni_md.h>
-#include <warehouse.h>
+#include<warehouse.h>
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_initializeHardwarePorts(JNIEnv *env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_initializeHardwarePorts(JNIEnv* env, jobject obj)
 {
 	initializeHardwarePorts();
 }
@@ -47,7 +46,7 @@ JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getRightStationMoving(JNIEnv* e
 	return getRightStationMoving();
 }
 
-JNIEXPORT jboolean JNICALL Java_si_fct_unl_Warehouse_isAtZUp(JNIEnv* env, jobject obj) 
+JNIEXPORT jboolean JNICALL Java_si_fct_unl_Warehouse_isAtZUp(JNIEnv* env, jobject obj)
 {
 	return isAtZUp();
 }
@@ -77,7 +76,7 @@ JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveXRight(JNIEnv* env, jobject
 	moveXRight();
 }
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveXLeft(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveXLeft(JNIEnv* env, jobject obj)
 {
 	moveXLeft();
 }
@@ -108,7 +107,7 @@ JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveYOutside(JNIEnv* env, jobje
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_StopYIn(JNIEnv * env, jobject obj)
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_StopYIn(JNIEnv* env, jobject obj)
 {
 	StopYIn();
 }
@@ -137,7 +136,7 @@ JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveZDown(JNIEnv* env, jobject 
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_StopZUp(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_StopZUp(JNIEnv* env, jobject obj)
 {
 	StopZUp();
 }
@@ -149,90 +148,91 @@ JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_StopZDown(JNIEnv* env, jobject 
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopZ(JNIEnv* env, jobject obj) {
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopZ(JNIEnv* env, jobject obj)
+{
 	stopZ();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveLeftStationInside(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveLeftStationInside(JNIEnv* env, jobject obj)
 {
 	moveLeftStationInside();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveLeftStationOutside(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveLeftStationOutside(JNIEnv* env, jobject obj)
 {
 	moveLeftStationOutside();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopLeftLtation(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopLeftLtation(JNIEnv* env, jobject obj)
 {
 	stopLeftLtation();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveRightStationInside(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveRightStationInside(JNIEnv* env, jobject obj)
 {
 	moveRightStationInside();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveRightStationOutside(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_moveRightStationOutside(JNIEnv* env, jobject obj)
 {
 	moveRightStationOutside();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopRightStation(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopRightStation(JNIEnv* env, jobject obj)
 {
 	stopRightStation();
 }
 
 
-JNIEXPORT jintArray JNICALL Java_si_fct_unl_Warehouse_getAllPositions(JNIEnv* env, jobject obj) 
+JNIEXPORT jintArray JNICALL Java_si_fct_unl_Warehouse_getAllPositions(JNIEnv* env, jobject obj)
 {
 	return getAllPositions();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoX(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoX(JNIEnv* env, jobject obj)
 {
 	//gotoX(obj);
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoY(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoY(JNIEnv* env, jobject obj)
 {
 	//gotoY(obj);
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoZ(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_gotoZ(JNIEnv* env, jobject obj)
 {
 	//gotoZ(obj);
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_randomPosition(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_randomPosition(JNIEnv* env, jobject obj)
 {
 	randomPosition();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopAll(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_stopAll(JNIEnv* env, jobject obj)
 {
 	setBitValue();
 }
 
 
-JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_setBitValue(JNIEnv* env, jobject obj) 
+JNIEXPORT void JNICALL Java_si_fct_unl_Warehouse_setBitValue(JNIEnv* env, jobject obj)
 {
 	setBitValue();
 }
 
 
-JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getBitValue(JNIEnv* env, jobject obj) 
+JNIEXPORT jint JNICALL Java_si_fct_unl_Warehouse_getBitValue(JNIEnv* env, jobject obj)
 {
 	return getBitValue();
 }
