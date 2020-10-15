@@ -40,11 +40,12 @@ public class App extends Application {
         Button buttonYInside = new Button("y-inside");
         Button buttonYOutside = new Button("y-outside");
         Button buttonYStop = new Button("y-stop");
+        buttonYInside.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonYOutside.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonYStop.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
         // z - buttons
-        Button buttonZUp = new Button("z-up");
-        Button buttonZDown = new Button("z-down");
-        Button buttonZStop = new Button("z-stop");
+
         
         // other buttons
         Button buttonLaunchProlog = new Button("Launch Prolog");
@@ -67,8 +68,20 @@ public class App extends Application {
         });
         
         // y - events
+        buttonYInside.setOnAction(event -> {
+            warehouse.moveYInside();
+            System.out.println("y moving inside");
+        });
         
+        buttonYOutside.setOnAction(event -> {
+            warehouse.moveYOutside();
+            System.out.println("y moving outside");
+        });
         
+        buttonYStop.setOnAction(event -> {
+            warehouse.stopY();
+            System.out.println("y stopped moving");
+        });
         
         // z - events
         
