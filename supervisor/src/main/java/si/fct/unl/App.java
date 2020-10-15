@@ -28,20 +28,53 @@ public class App extends Application {
         InteligentSupervisor supervisor = new InteligentSupervisor();
         supervisor.startWebServer();
         
+        // x - buttons
         Button buttonXRight = new Button("x-right");
         Button buttonXLeft = new Button("x-left");
         Button buttonXStop = new Button("x-stop");
         buttonXRight.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonXLeft.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonXStop.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        
+        // y - buttons
         Button buttonYInside = new Button("y-inside");
         Button buttonYOutside = new Button("y-outside");
         Button buttonYStop = new Button("y-stop");
         
+        // z - buttons
+        Button buttonZUp = new Button("z-up");
+        Button buttonZDown = new Button("z-down");
+        Button buttonZStop = new Button("z-stop");
+        
+        // other buttons
         Button buttonLaunchProlog = new Button("Launch Prolog");
-        Button buttonSuperbvisionUI = new Button("Launch SI-UI");
+        Button buttonSupervisionUI = new Button("Launch SI-UI");
 
-        buttonSuperbvisionUI.setOnAction(event->{
+        // x - events
+        buttonXRight.setOnAction(event -> {
+                warehouse.moveXRight();
+                System.out.println("x moving right");
+        });
+        
+        buttonXLeft.setOnAction(event -> {
+            warehouse.moveXLeft();
+            System.out.println("x moving left");
+        });
+        
+        buttonXStop.setOnAction(event -> {
+            warehouse.stopX();
+            System.out.println("x stopped moving");
+        });
+        
+        // y - events
+        
+        
+        
+        // z - events
+        
+        
+        // other buttons events
+        buttonSupervisionUI.setOnAction(event->{
             try {
                
                 java.awt.Desktop.getDesktop().browse(new URI("http://localhost:8082/supervisor-ui.html"));
@@ -61,11 +94,6 @@ public class App extends Application {
             }                
         });
         
-        buttonXRight.setOnAction(event -> {
-                warehouse.moveXRight();
-                System.out.println("x moving right");
-        });
-        
         GridPane root = new GridPane();
         root.add(buttonXRight, 1, 1);
         root.add(buttonXLeft, 2, 1);
@@ -74,7 +102,7 @@ public class App extends Application {
         root.add(buttonYOutside, 2, 2);
         root.add(buttonYStop, 3, 2);
         root.add(buttonLaunchProlog, 1, 3);
-        root.add(buttonSuperbvisionUI, 2, 3);
+        root.add(buttonSupervisionUI, 2, 3);
         root.setHgap(10);
         root.setHgap(10);
         Scene scene = new Scene(root, 300, 250);
