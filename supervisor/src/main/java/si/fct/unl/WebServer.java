@@ -15,9 +15,10 @@ import org.rapidoid.setup.Setup;
  */
 public class WebServer {
     
-    public static void startServer()
-    {
+    public static void startServer() {
         On.port(8082);
         On.get("/").html((req, resp) -> "Hello again!");     
+        
     }
+
 }
