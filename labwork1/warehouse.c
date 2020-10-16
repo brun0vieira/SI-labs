@@ -151,7 +151,7 @@ int getRightStationMoving() {
 
 bool isAtZUp()
 {
-	return false;
+	return true;
 }
 bool isAtZDown()
 {
@@ -281,16 +281,40 @@ void stopZ()
 
 void moveLeftStationInside()
 {
+	uInt8 port_in = readDigitalU8(4);
+	uInt8 port_out = readDigitalU8(5);
 
+	setBitValue(&port_out, 0, 0); // pára de andar para fora
+	setBitValue(&port_in, 7, 1); // anda para dentro
+
+	writeDigitalU8(5, port_out);
+	writeDigitalU8(4, port_in);
 }
+
 void moveLeftStationOutside()
 {
+	uInt8 port_in = readDigitalU8(4);
+	uInt8 port_out = readDigitalU8(5);
 
+	setBitValue(&port_in, 7, 0);
+	setBitValue(&port_out, 0, 1);
+
+	writeDigitalU8(4, port_in);
+	writeDigitalU8(5, port_out);
 }
+
 void stopLeftLtation()
 {
+	uInt8 port_in = readDigitalU8(4);
+	uInt8 port_out = readDigitalU8(5);
 
+	setBitValue(&port_in, 7, 0);
+	setBitValue(&port_out, 0, 0);
+
+	writeDigitalU8(4, port_in);
+	writeDigitalU8(5, port_out);
 }
+
 void moveRightStationInside()
 {
 
