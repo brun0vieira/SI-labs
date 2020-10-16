@@ -281,43 +281,48 @@ void stopZ()
 
 void moveLeftStationInside()
 {
-	uInt8 port_in = readDigitalU8(4);
-	uInt8 port_out = readDigitalU8(5);
+	uInt8 p4 = readDigitalU8(4);
+	uInt8 p5 = readDigitalU8(5);
 
-	setBitValue(&port_out, 0, 0); // pára de andar para fora
-	setBitValue(&port_in, 7, 1); // anda para dentro
+	setBitValue(&p5, 0, 0); // pára de andar para fora
+	setBitValue(&p4, 7, 1); // anda para dentro
 
-	writeDigitalU8(5, port_out);
-	writeDigitalU8(4, port_in);
+	writeDigitalU8(5, p5);
+	writeDigitalU8(4, p4);
 }
 
 void moveLeftStationOutside()
 {
-	uInt8 port_in = readDigitalU8(4);
-	uInt8 port_out = readDigitalU8(5);
+	uInt8 p4 = readDigitalU8(4);
+	uInt8 p5 = readDigitalU8(5);
 
-	setBitValue(&port_in, 7, 0);
-	setBitValue(&port_out, 0, 1);
+	setBitValue(&p4, 7, 0);
+	setBitValue(&p5, 0, 1);
 
-	writeDigitalU8(4, port_in);
-	writeDigitalU8(5, port_out);
+	writeDigitalU8(4, p4);
+	writeDigitalU8(5, p5);
 }
 
 void stopLeftLtation()
 {
-	uInt8 port_in = readDigitalU8(4);
-	uInt8 port_out = readDigitalU8(5);
+	uInt8 p4 = readDigitalU8(4);
+	uInt8 p5 = readDigitalU8(5);
 
-	setBitValue(&port_in, 7, 0);
-	setBitValue(&port_out, 0, 0);
+	setBitValue(&p4, 7, 0);
+	setBitValue(&p5, 0, 0);
 
-	writeDigitalU8(4, port_in);
-	writeDigitalU8(5, port_out);
+	writeDigitalU8(4, p4);
+	writeDigitalU8(5, p5);
 }
 
 void moveRightStationInside()
 {
+	uInt8 p = readDigitalU8(5);
 
+	setBitValue(&p, 1, 0);
+	setBitValue(&p, 0, 1);
+
+	writeDigitalU8(5, p);
 }
 void moveRightStationOutside()
 {

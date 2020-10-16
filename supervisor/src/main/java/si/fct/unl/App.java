@@ -87,6 +87,8 @@ public class App extends Application {
         // z - events
         
         
+        
+        
         // other buttons events
         buttonSupervisionUI.setOnAction(event->{
             try {
@@ -108,9 +110,10 @@ public class App extends Application {
             }                
         });
         
+        // button to test functions from warehouse.c
         buttonTestFunction.setOnAction(event -> {
-            warehouse.getXMoving();
-            System.out.println("\nFunction output: ");
+            warehouse.moveLeftStationInside();
+            System.out.println("\nTesting function: ");
         });
         
         GridPane root = new GridPane();
