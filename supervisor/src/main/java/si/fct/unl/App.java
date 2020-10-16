@@ -50,6 +50,7 @@ public class App extends Application {
         // other buttons
         Button buttonLaunchProlog = new Button("Launch Prolog");
         Button buttonSupervisionUI = new Button("Launch SI-UI");
+        Button buttonTestFunction = new Button("Test function");
 
         // x - events
         buttonXRight.setOnAction(event -> {
@@ -107,6 +108,11 @@ public class App extends Application {
             }                
         });
         
+        buttonTestFunction.setOnAction(event -> {
+            warehouse.getXMoving();
+            System.out.println("\nFunction output: ");
+        });
+        
         GridPane root = new GridPane();
         root.add(buttonXRight, 1, 1);
         root.add(buttonXLeft, 2, 1);
@@ -116,6 +122,7 @@ public class App extends Application {
         root.add(buttonYStop, 3, 2);
         root.add(buttonLaunchProlog, 1, 3);
         root.add(buttonSupervisionUI, 2, 3);
+        root.add(buttonTestFunction, 3, 3);
         root.setHgap(10);
         root.setHgap(10);
         Scene scene = new Scene(root, 300, 250);

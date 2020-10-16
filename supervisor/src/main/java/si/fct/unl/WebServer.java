@@ -13,6 +13,7 @@ import org.rapidoid.setup.Setup;
  *
  * @author bruno
  */
+
 public class WebServer {
     
     public static void startServer() {
@@ -20,5 +21,4 @@ public class WebServer {
         On.get("/").html((req, resp) -> "Hello again!");     
         
     }
-
 }

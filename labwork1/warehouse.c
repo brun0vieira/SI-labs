@@ -87,23 +87,26 @@ int getZPosition()
 	return(-1);
 }
 
-
 int getXMoving() 
 {
 	uInt8 port = readDigitalU8(4); 
 
-	if (getBitValue(port, 0) == 1 || getBitValue(port, 1) == 1) 
+	if (getBitValue(port, 0)) // returns 0 se está a mover para a direita
+		return 0;
+	else if (getBitValue(port, 1)) // returns 1 se está a mover para a esquerda
 		return 1;
 	else
 		return (-1);
-
+	
 }
 
 int getYMoving()
 {
 	uInt8 port = readDigitalU8(4);
 
-	if (getBitValue(port, 4) == 1 || getBitValue(port, 3) == 1) 
+	if (getBitValue(port, 4)) // returns 0 se está a mover para dentro
+		return 0;
+	else if (getBitValue(port, 3)) // returns 1 se está a mover para fora
 		return 1;
 	else
 		return (-1);
@@ -113,7 +116,9 @@ int getZMoving()
 {
 	uInt8 port = readDigitalU8(4);
 
-	if (getBitValue(port, 5) == 1 || getBitValue(port, 6) == 1)
+	if (getBitValue(port, 5)) // returns 0 se está a mover para cima
+		return 0;
+	else if (getBitValue(port, 6)) // returns 1 se está a mover para baixo
 		return 1;
 	else
 		return (-1);
@@ -121,11 +126,27 @@ int getZMoving()
 
 int getLeftStationMoving()
 {
-	return 1;
+	uInt8 port_in = readDigitalU8(4);
+	uInt8 port_out = readDigitalU8(5);
+
+	if (getBitValue(port_in, 7)) // returns 0 se está a mover para dentro
+		return 0;
+	else if (getBitValue(port_out, 0)) // returns 1 se está a mover para fora
+		return 1;
+	else
+		return (-1);
 }
 
 int getRightStationMoving() {
-	return 1;
+	
+	uInt8 port = readDigitalU8(5);
+
+	if (getBitValue(port, 1)) // returns 0 se está a mover para dentro
+		return 0;
+	else if (getBitValue(port, 2)) // returns 1 se está a mover para fora
+		return 1;
+	else
+		return (-1);
 }
 
 bool isAtZUp()
