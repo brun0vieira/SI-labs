@@ -87,19 +87,38 @@ int getZPosition()
 	return(-1);
 }
 
+
 int getXMoving() 
 {
-	return 1;
+	uInt8 port = readDigitalU8(4); 
+
+	if (getBitValue(port, 0) == 1 || getBitValue(port, 1) == 1) 
+		return 1;
+	else
+		return (-1);
+
 }
 
 int getYMoving()
 {
-	return 1;
+	uInt8 port = readDigitalU8(4);
+
+	if (getBitValue(port, 4) == 1 || getBitValue(port, 3) == 1) 
+		return 1;
+	else
+		return (-1);
 }
+
 int getZMoving()
 {
-	return 1;
+	uInt8 port = readDigitalU8(4);
+
+	if (getBitValue(port, 5) == 1 || getBitValue(port, 6) == 1)
+		return 1;
+	else
+		return (-1);
 }
+
 int getLeftStationMoving()
 {
 	return 1;

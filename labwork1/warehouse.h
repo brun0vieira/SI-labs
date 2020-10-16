@@ -20,7 +20,6 @@ bool isPartInCage();
 bool isPartOnLeftStation();
 bool isPartOnRightStation();
 
-
 void moveXRight();
 void moveXLeft();
 void stopXLeft();
