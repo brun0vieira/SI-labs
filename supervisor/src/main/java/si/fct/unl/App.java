@@ -56,17 +56,25 @@ public class App extends Application {
         Button buttonLeftStationInside = new Button("left-station-inside");
         Button buttonLeftStationOutside = new Button("left-station-outside");
         Button buttonStopLeftStation = new Button("left-station-stop");
+        buttonLeftStationInside.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonLeftStationOutside.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonStopLeftStation.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
         // right station
         Button buttonRightStationInside = new Button("right-station-inside");
         Button buttonRightStationOutside = new Button("right-station-outside");
         Button buttonStopRightStation = new Button("right-station-stop");
+        buttonRightStationInside.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonRightStationOutside.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonStopRightStation.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
         // other buttons
         Button buttonLaunchProlog = new Button("Launch Prolog");
         Button buttonSupervisionUI = new Button("Launch SI-UI");
         Button buttonTestFunction = new Button("Test function");
-
+        buttonLaunchProlog.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonSupervisionUI.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        
         // x - events
         buttonXRight.setOnAction(event -> {
                 warehouse.moveXRight();
@@ -203,7 +211,7 @@ public class App extends Application {
         root.setHgap(10);
         root.setHgap(10);
         Scene scene = new Scene(root, 300, 250);
-        primaryStage.setTitle("Hello world");
+        primaryStage.setTitle("JavaFX APP");
         primaryStage.setScene(scene);
         primaryStage.show();
         
