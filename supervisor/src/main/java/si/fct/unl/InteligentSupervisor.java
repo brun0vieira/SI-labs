@@ -15,7 +15,12 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.rapidoid.http.HTTP;
+import org.rapidoid.http.Req;
+import org.rapidoid.http.ReqHandler;
+import org.rapidoid.setup.My;
 import org.rapidoid.setup.On;
 
 /*
@@ -60,13 +65,37 @@ public class InteligentSupervisor extends Thread{
             return req;
         });
         
-        On.get("/execute_remote_query").serve(req -> {            
-            String the_query = URLEncoder.encode(req.param("query"), StandardCharsets.UTF_8);
-            String result = HTTP.get("http://localhost:8083/execute_remote_query?query="+the_query).execute().result();            
-            req.response().plain(result);
-            return req;
+        On.get("/execute_remote_query").serve(new ReqHandler() {
+            @Override
+            public Object execute(Req req) throws Exception {
+                String the_query = URLEncoder.encode(req.param("query"), StandardCharsets.UTF_8);
+                //String result = HTTP.get("http://localhost:8083/execute_remote_query?query="+the_query).execute().result();
+                String result = InteligentSupervisor.this.executePrologQuery(the_query);
+                req.response().plain(result);
+                return req;
+            }
+        });
+        
+        My.errorHandler((req,resp,error) -> 
+        {
+            return resp.code(200).result("Error:" + error.getMessage());
         });
     }
+    
+    synchronized String executePrologQuery(String query)
+    {
+        String result = HTTP.get("http://localhost:8083/"+ query).execute().result();
+        try
+        {
+            Thread.sleep(2);
+            
+        }
+        catch (InterruptedException ex)
+        {
+            Logger.getLogger(InteligentSupervisor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }   
         
     public void run() {
         while (!interrupted) {
