@@ -118,12 +118,12 @@ public class App extends Application {
         // left station
         buttonLeftStationInside.setOnAction(event -> {
             warehouse.moveLeftStationInside();
-            System.out.println("left sation moving inside");
+            System.out.println("left station moving inside");
         });
         
         buttonLeftStationOutside.setOnAction(event -> {
             warehouse.moveLeftStationOutside();
-            System.out.println("left sation moving outside");
+            System.out.println("left station moving outside");
         });
         
         buttonStopLeftStation.setOnAction(event-> {
@@ -134,21 +134,18 @@ public class App extends Application {
         //right station
         buttonRightStationInside.setOnAction(event -> {
             warehouse.moveRightStationInside();
-            System.out.println("right sation moving inside");
+            System.out.println("right station moving inside");
         });
         
         buttonRightStationOutside.setOnAction(event -> {
             warehouse.moveRightStationOutside();
-            System.out.println("right sation moving outside");
+            System.out.println("right station moving outside");
         });
         
         buttonStopRightStation.setOnAction(event-> {
             warehouse.stopRightStation();
             System.out.println("right station stoped moving");
         });
-        
-        
-        
         
         // other buttons events
         buttonSupervisionUI.setOnAction(event->{
