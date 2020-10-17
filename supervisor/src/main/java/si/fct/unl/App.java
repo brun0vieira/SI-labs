@@ -45,6 +45,12 @@ public class App extends Application {
         buttonYStop.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
         // z - buttons
+        Button buttonZUp = new Button("z-up");
+        Button buttonZDown = new Button("z-down");
+        Button buttonZStop = new Button("z-stop");
+        buttonZUp.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonZDown.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        buttonZStop.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         
         // other buttons
@@ -85,7 +91,20 @@ public class App extends Application {
         });
         
         // z - events
+        buttonZUp.setOnAction(event -> {
+            warehouse.moveZUp();
+            System.out.println("y moving inside");
+        });
         
+        buttonZDown.setOnAction(event -> {
+            warehouse.moveZDown();
+            System.out.println("y moving outside");
+        });
+        
+        buttonZStop.setOnAction(event -> {
+            warehouse.stopZ();
+            System.out.println("y stopped moving");
+        });
         
         
         

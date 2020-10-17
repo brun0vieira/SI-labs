@@ -151,22 +151,38 @@ int getRightStationMoving() {
 
 bool isAtZUp()
 {
-	return true;
+	uInt8 p2 = readDigitalU8(2);
+	uInt8 p1 = readDigitalU8(1);
+	if (!getBitValue(p2, 5) || !getBitValue(p2, 3) || !getBitValue(p2, 1) || !getBitValue(p1, 7) || !getBitValue(p1, 5))
+		return true;
+	return false;
 }
 bool isAtZDown()
 {
+	int pos = getZPosition();
+	if (pos != (-1))
+		return true;
 	return false;
 }
 bool isPartInCage()
 {
+	uInt8 p = readDigitalU8(2);
+	if (getBitValue(p, 7))
+		return true;
 	return false;
 }
 bool isPartOnLeftStation()
 {
+	uInt8 p = readDigitalU8(3);
+	if (getBitValue(p, 0))
+		return true;
 	return false;
 }
 bool isPartOnRightStation()
 {
+	uInt8 p = readDigitalU8(3);
+	if (getBitValue(p, 1))
+		return true;
 	return false;
 }
 
@@ -319,18 +335,28 @@ void moveRightStationInside()
 {
 	uInt8 p = readDigitalU8(5);
 
-	setBitValue(&p, 1, 0);
-	setBitValue(&p, 0, 1);
+	setBitValue(&p, 2, 0);
+	setBitValue(&p, 1, 1);
 
 	writeDigitalU8(5, p);
 }
 void moveRightStationOutside()
 {
+	uInt8 p = readDigitalU8(5);
 
+	setBitValue(&p, 1, 0);
+	setBitValue(&p, 2, 1);
+
+	writeDigitalU8(5, p);
 }
 void stopRightStation()
 {
+	uInt8 p = readDigitalU8(5);
 
+	setBitValue(&p, 1, 0);
+	setBitValue(&p, 2, 0);
+
+	writeDigitalU8(5, p);
 }
 
 int* getAllPositions()
