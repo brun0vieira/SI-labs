@@ -51,7 +51,16 @@ public class App extends Application {
         buttonZUp.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonZDown.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonZStop.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
+        
+        // left station
+        Button buttonLeftStationInside = new Button("left-station-inside");
+        Button buttonLeftStationOutside = new Button("left-station-outside");
+        Button buttonStopLeftStation = new Button("left-station-stop");
+        
+        // right station
+        Button buttonRightStationInside = new Button("right-station-inside");
+        Button buttonRightStationOutside = new Button("right-station-outside");
+        Button buttonStopRightStation = new Button("right-station-stop");
         
         // other buttons
         Button buttonLaunchProlog = new Button("Launch Prolog");
@@ -106,6 +115,39 @@ public class App extends Application {
             System.out.println("y stopped moving");
         });
         
+        // left station
+        buttonLeftStationInside.setOnAction(event -> {
+            warehouse.moveLeftStationInside();
+            System.out.println("left sation moving inside");
+        });
+        
+        buttonLeftStationOutside.setOnAction(event -> {
+            warehouse.moveLeftStationOutside();
+            System.out.println("left sation moving outside");
+        });
+        
+        buttonStopLeftStation.setOnAction(event-> {
+            warehouse.stopLeftLtation();
+            System.out.println("left station stoped moving");
+        });
+        
+        //right station
+        buttonRightStationInside.setOnAction(event -> {
+            warehouse.moveRightStationInside();
+            System.out.println("right sation moving inside");
+        });
+        
+        buttonRightStationOutside.setOnAction(event -> {
+            warehouse.moveRightStationOutside();
+            System.out.println("right sation moving outside");
+        });
+        
+        buttonStopRightStation.setOnAction(event-> {
+            warehouse.stopRightStation();
+            System.out.println("right station stoped moving");
+        });
+        
+        
         
         
         // other buttons events
@@ -139,12 +181,27 @@ public class App extends Application {
         root.add(buttonXRight, 1, 1);
         root.add(buttonXLeft, 2, 1);
         root.add(buttonXStop, 3, 1);
+        
         root.add(buttonYInside, 1, 2);
         root.add(buttonYOutside, 2, 2);
         root.add(buttonYStop, 3, 2);
-        root.add(buttonLaunchProlog, 1, 3);
-        root.add(buttonSupervisionUI, 2, 3);
-        root.add(buttonTestFunction, 3, 3);
+        
+        root.add(buttonZUp, 1,3);
+        root.add(buttonZDown, 2, 3);
+        root.add(buttonZStop,3,3);
+        
+        root.add(buttonLeftStationInside,1,4);
+        root.add(buttonLeftStationOutside,2,4);
+        root.add(buttonStopLeftStation,3,4);
+        
+        root.add(buttonRightStationInside,1,5);
+        root.add(buttonRightStationOutside,2,5);
+        root.add(buttonStopRightStation,3,5);
+        
+        
+        root.add(buttonLaunchProlog, 1, 7);
+        root.add(buttonSupervisionUI, 2, 7);
+        root.add(buttonTestFunction, 3, 7);
         root.setHgap(10);
         root.setHgap(10);
         Scene scene = new Scene(root, 300, 250);
