@@ -201,7 +201,8 @@ public class App extends Application {
         
         root.add(buttonLaunchProlog, 1, 7);
         root.add(buttonSupervisionUI, 2, 7);
-        root.add(buttonTestFunction, 3, 7);
+        //root.add(buttonTestFunction, 3, 7);
+        
         root.setHgap(10);
         root.setHgap(10);
         Scene scene = new Scene(root, 300, 250);

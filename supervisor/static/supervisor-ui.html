@@ -67,6 +67,24 @@
                 $("#z-stop").click(function () {
                     ajax_get_request("/z-stop", {"cmd": "z-move-stop"});
                 });
+                $("#left-station-inside").click(function(){
+                    ajax_get_request("/left-station-inside", {"cmd": "left-station-move-inside"});
+                });
+                $("#left-station-outside").click(function(){
+                    ajax_get_request("/left-station-outside", {"cmd": "left-station-move-outside"});
+                });
+                $("#left-station-stop").click(function(){
+                    ajax_get_request("/left-station-inside", {"cmd": "left-station-move-stop"});
+                });
+                $("#right-station-inside").click(function(){
+                    ajax_get_request("/right-station-inside", {"cmd": "right-station-move-inside"});
+                });
+                $("#right-station-outside").click(function(){
+                    ajax_get_request("/right-station-outside", {"cmd": "right-station-move-outside"});
+                });
+                $("#right-station-stop").click(function(){
+                    ajax_get_request("/right-station-stop", {"cmd": "right-station-move-stop"});
+                });
             });
 
 
@@ -149,21 +167,37 @@
                         <div class="col-sm-12">
                             <table class="table table-sm">                               
                                 <tbody>
+
                                     <tr>                                        
                                         <td><button id="x-left"  type="button" class="btn btn-primary">x-Left</button></td>
                                         <td><button id="x-right" type="button" class="btn btn-success">x-Right</button></td>
                                         <td><button id="x-stop" type="button" class="btn btn-warning">x-Stop</button></td>
                                     </tr>
+
                                     <tr>                                        
                                         <td><button id="y-inside" type="button" class="btn btn-primary">y-Inside</button></td>
                                         <td><button id="y-outside" type="button" class="btn btn-success">y-Outside</button></td>
                                         <td><button id="y-stop" type="button" class="btn btn-warning">y-Stop</button></td>
                                     </tr>
+
                                     <tr>                                        
                                         <td><button id="z-up" type="button" class="btn btn-primary">z-Up</button></td>
                                         <td><button id="z-down" type="button" class="btn btn-success">z-Down</button></td>
                                         <td><button id="z-stop" type="button" class="btn btn-warning">z-Stop</button></td>
                                     </tr>
+
+                                    <tr>
+                                        <td><button id="left-station-inside" type="button" class="btn btn-primary">Left-Station-Inside</button></td>
+                                        <td><button id="left-station-outside" type="button" class="btn btn-success">Left-Station-Outside</button></td>
+                                        <td><button id="left-station-stop" type="button" class="btn btn-warning">Left-Station-Stop</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><button id="right-station-inside" type="button" class="btn btn-primary">Right-Station-Inside</button></td>
+                                        <td><button id="right-station-outside" type="button" class="btn btn-success">Right-Station-Outside</button></td>
+                                        <td><button id="right-station-stop" type="button" class="btn btn-warning">Right-Station-Stop</button></td>
+                                    </tr>
+
                                 </tbody>
                             </table>
 

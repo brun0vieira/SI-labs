@@ -101,6 +101,49 @@ public class InteligentSupervisor extends Thread{
             return req;
         });
         
+        On.get("/left-station-inside").serve(req -> 
+        {
+            warehouse.moveLeftStationInside();
+            req.response().plain("OK");
+            return req;
+        });
+        
+        On.get("/left-station-outside").serve(req -> 
+        {
+            warehouse.moveLeftStationOutside();
+            req.response().plain("OK");
+            return req;
+        });
+        
+        On.get("/left-station-stop").serve(req -> 
+        {
+            warehouse.stopLeftLtation();
+            req.response().plain("OK");
+            return req;
+        });
+        
+        On.get("/right-station-inside").serve(req -> 
+        {
+            warehouse.moveRightStationInside();
+            req.response().plain("OK");
+            return req;
+        });
+        
+        On.get("/right-station-outside").serve(req -> 
+        {
+            warehouse.moveRightStationOutside();
+            req.response().plain("OK");
+            return req;
+        });
+        
+        On.get("/right-station-stop").serve(req -> 
+        {
+            warehouse.stopRightStation();
+            req.response().plain("OK");
+            return req; 
+        });
+        
+          
         On.get("/execute_remote_query").serve(new ReqHandler() {
             @Override
             public Object execute(Req req) throws Exception {
