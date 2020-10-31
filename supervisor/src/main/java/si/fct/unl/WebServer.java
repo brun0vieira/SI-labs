@@ -6,6 +6,7 @@
 package si.fct.unl;
 
 import org.rapidoid.setup.App;
+import org.rapidoid.setup.My;
 import org.rapidoid.setup.On;
 import org.rapidoid.setup.Setup;
 
@@ -20,5 +21,11 @@ public class WebServer {
         On.port(8082);
         On.get("/").html((req, resp) -> "Hello again!");     
         
+        
+        My.errorHandler((req, resp, error) -> {
+            return resp.code(200).result("Error " + error.getMessage());
+        });
     }
+    
+    
 }

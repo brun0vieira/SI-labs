@@ -12,20 +12,26 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+import javafx.stage.WindowEvent;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
+    
+    Warehouse warehouse = new Warehouse();
+    final InteligentSupervisor supervisor  = new InteligentSupervisor(warehouse);
 
     @Override
     public void start(Stage primaryStage) {
+            
+        new Thread() {
+            public void run() {
+            warehouse.initializeHardwarePorts();
+            }
+        }.start();
+
         
-        Warehouse warehouse = new Warehouse();
-        warehouse.initializeHardwarePorts();
-        
-        InteligentSupervisor supervisor = new InteligentSupervisor();
         supervisor.startWebServer();
         
         // x - buttons
@@ -171,6 +177,7 @@ public class App extends Application {
             try {
                 String folder = System.getProperty("user.dir");
                 Runtime.getRuntime().exec("swipl-win.exe -f "+folder +"/kbase/supervisor.pl -g main");
+                buttonLaunchProlog.setDisable(true);
             } catch (IOException ex) {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }                
@@ -215,6 +222,14 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
+    }
+    
+    private void closeWindowEvent(WindowEvent event)
+    {
+        System.out.println("Window close request...");
+        supervisor.setInterrupted(true);
+        Platform.exit();
+        System.exit(0);
     }
 
     public static void main(String[] args) {
