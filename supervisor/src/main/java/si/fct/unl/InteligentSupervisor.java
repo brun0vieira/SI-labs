@@ -147,12 +147,11 @@ public class InteligentSupervisor extends Thread{
             req.response().plain("OK");
             return req; 
         });
-        
           
         On.get("/execute_remote_query").serve(new ReqHandler() {
             @Override
             public Object execute(Req req) throws Exception {
-                String the_query = URLEncoder.encode(req.param("query"), StandardCharsets.UTF_8);
+                String the_query = "execute_remote_query?query=" + URLEncoder.encode(req.param("query"), StandardCharsets.UTF_8);
                 //String result = HTTP.get("http://localhost:8083/execute_remote_query?query="+the_query).execute().result();
                 String result = InteligentSupervisor.this.executePrologQuery(the_query);
                 req.response().plain(result);
@@ -170,8 +169,6 @@ public class InteligentSupervisor extends Thread{
             req.response().plain(jsonObj.toString());
             return req;
         });
-        
-        
     }
     
     synchronized String executePrologQuery(String query)
@@ -239,6 +236,7 @@ public class InteligentSupervisor extends Thread{
     public void run() {
         while (!interrupted) {
             try{
+                executePrologQuery("query_forward");
                 updateKnowledgeBase();
                 invokeDispatcher();
                 Thread.yield();
@@ -278,6 +276,7 @@ public class InteligentSupervisor extends Thread{
         }
         else{
             System.out.printf("Dispatcher: Action %s means nothing to me. Go away! \n", action);
+            return;
         }
         
         System.out.println("Executed action: " + action);
@@ -292,6 +291,9 @@ public class InteligentSupervisor extends Thread{
         jsonObj.put("x_moving", warehouse.getXMoving());
         jsonObj.put("y_moving", warehouse.getXPosition());
         jsonObj.put("z_moving", warehouse.getXPosition());
+        jsonObj.put("cage", warehouse.isPartInCage());
+        
+        // complete for the remaining sensors
         
         return jsonObj;
     }

@@ -10,6 +10,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
         <script>
+            
             function ajax_get_request(remote_address, arguments, done_callback = null, fail_callback = null, always_callbak = null)
             {
                 $.get(remote_address, arguments, function (results) {
@@ -19,7 +20,7 @@
                     }
                 }).fail(function () {
                     //alert("error");
-                    console.log("error");
+                    console.log("AJAX error requesting: " + remove_address);
                 }).always(function () {
                     //alert("finished");
                 });
@@ -129,8 +130,26 @@
                 $('#prologTextAnswers').val(result.trim());
 
             }
-  
-
+            
+            function done_read_sensor_values(result)
+            {
+                console.log(result);
+                const obj = JSON.parse(result);
+                
+                $("#xLabel").text("X: " + obj.x);
+                $("#yLabel").text("Y: " + obj.y);
+                $("#zLabel").text("Z: " + obj.z);
+                
+                $("#xMovingLabel").text("xMov: " + obj.x_moving);
+                $("#cageSensorLabel").text("Cg: " + 1 * obj.cage);
+            }
+            
+            let timerId = setTimeout(
+                function tick() {
+                    ajax_get_request("/read_sensor_values", {"cmd":"xpto"}, done_read_sensor_values);
+                    timerId = setTimeout(tick,100);
+                }
+            ,100);
         </script>
         <style>
             iframe{
@@ -146,10 +165,6 @@
             }
 
         </style>
-
-        
-
-
 
     </head>
     <body>
@@ -226,6 +241,23 @@
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe src="http://localhost:8081/ss_multi_parts.html" title="Simulator"></iframe>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="xLabel" style="font-size: 12px"></label>
+                        </div>
+                        <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="yLabel" style="font-size: 12px"></label>
+                        </div>
+                        <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="zLabel"></label>
+                        </div>
+                        <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="xMovingLabel"></label>
+                        </div>
+                        <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="cageSensorLabel"></label>
                         </div>
                     </div>
                 </div>

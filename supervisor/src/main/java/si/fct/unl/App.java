@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.application.Platform;
 
 /**
  * JavaFX App
@@ -21,7 +22,18 @@ public class App extends Application {
     
     Warehouse warehouse = new Warehouse();
     final InteligentSupervisor supervisor  = new InteligentSupervisor(warehouse);
+    
+    /*
+    public class InteligentSupervisor extends Thread {
+        private Warehouse warehouse;
+        private boolean interrupted = false;
 
+        public InteligentSupervisor(Warehouse warehouse) {
+            this.warehouse = warehouse;
+        }
+    }
+    */
+    
     @Override
     public void start(Stage primaryStage) {
             
@@ -78,8 +90,10 @@ public class App extends Application {
         Button buttonLaunchProlog = new Button("Launch Prolog");
         Button buttonSupervisionUI = new Button("Launch SI-UI");
         Button buttonTestFunction = new Button("Test function");
+        Button startSupervisorButton = new Button("Start Supervisor");
         buttonLaunchProlog.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         buttonSupervisionUI.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        startSupervisorButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
         // x - events
         buttonXRight.setOnAction(event -> {
@@ -163,6 +177,7 @@ public class App extends Application {
         
         // other buttons events
         buttonSupervisionUI.setOnAction(event->{
+            buttonSupervisionUI.setDisable(true);
             try {
                
                 java.awt.Desktop.getDesktop().browse(new URI("http://localhost:8082/supervisor-ui.html"));
@@ -189,6 +204,11 @@ public class App extends Application {
             System.out.println("\nTesting function: ");
         });
         
+        startSupervisorButton.setOnAction(event-> {
+            startSupervisorButton.setDisable(true);
+            supervisor.start();
+        });
+        
         GridPane root = new GridPane();
         root.add(buttonXRight, 1, 1);
         root.add(buttonXLeft, 2, 1);
@@ -213,7 +233,7 @@ public class App extends Application {
         
         root.add(buttonLaunchProlog, 1, 7);
         root.add(buttonSupervisionUI, 2, 7);
-        //root.add(buttonTestFunction, 3, 7);
+        root.add(startSupervisorButton, 3, 7);
         
         root.setHgap(10);
         root.setHgap(10);
@@ -237,3 +257,4 @@ public class App extends Application {
     }
 
 }
+    

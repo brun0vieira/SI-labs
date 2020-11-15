@@ -48,6 +48,7 @@ execute_query(_,false).
 
 %NOVA VERSAO
 %:-findall(Y, ( member(X,[1,2,3,4]), Y is X*2), L), write(L).
+
 execute_remote_query(Request):-
         member(search(List), Request),
         format('Content-type: text/plain~n~n',[]),
