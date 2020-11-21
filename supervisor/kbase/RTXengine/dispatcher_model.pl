@@ -86,6 +86,25 @@ defrule store_pallete
            retract(store_pallete(X,Z,Block))
        ].
 
+defrule pick_pallete
+       if take_from_cell(X,Z,Block)
+       then [
+           new_id(ID),
+           Seq = [
+               (   true, assert(goto_xz(X,Z))),
+               (   (x_is_at(X), z_is_at(Z), x_moving(0), z_moving(0)), assert(action(move_z_down))),
+               (   is_at_z_down, assert(action(stop_z))),
+               (   (is_at_z_down, z_moving(0)), assert(action(move_y_inside))),
+               (   y_is_at(3), assert(action(stop_y))),
+               (   (y_is_at(3), y_moving(0)), assert(action(move_z_up))),
+               (   is_at_z_up, assert(action(stop_z))),
+               (   (is_at_z_down, z_moving(0)), assert(action(move_y_outside))),
+               (   y_is_at(2), assert(action(stop_y)))
+          ],
+          assert(sequence(ID,pick_pallete_seq(Seq))),
+          retract(pick_pallete(X,Z,Block))
+       ].
+
 
 /*
 defrule rule_dance_square1

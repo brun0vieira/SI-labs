@@ -26,7 +26,8 @@ act put_in_cell(X,Z,Block)
        endcond [not(cage(Block)), cell(X,Z,Block)].
 
 act take_from_cell(X,Z,Block)
-       pre [not(cage(Block)), x_is_at(X), z_is_at(Z), cell(X,Z,Block)]
+       pre [not(cage(_))x_is_at(X), z_is_at(Z), cell(X,Z,Block)]
        add [cage(Block)]
        del [cell(X,Z,Block)]
-       endcond [cage(Block), not(cell(X,Z,Block))].
+       endcond [cage(Block), not(cell(X,Z,_))].
+

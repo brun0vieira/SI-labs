@@ -67,7 +67,7 @@ defrule goto_xz
        retract(goto_xz(X,Z))
     ].
 
-defrule put_in_cell
+defrule store_pallete
        if put_in_cell(X,Z,Block)
        then [
            new_id(ID),
