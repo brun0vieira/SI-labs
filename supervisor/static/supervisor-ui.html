@@ -167,6 +167,7 @@
         </style>
 
     </head>
+    
     <body>
         <div class="container-fluid">
             <div class="row">
@@ -182,73 +183,76 @@
                         <div class="col-sm-12">
                             <table class="table table-sm">                               
                                 <tbody>
-
                                     <tr>                                        
-                                        <td><button id="x-left"  type="button" class="btn btn-primary">x-Left</button></td>
-                                        <td><button id="x-right" type="button" class="btn btn-success">x-Right</button></td>
-                                        <td><button id="x-stop" type="button" class="btn btn-warning">x-Stop</button></td>
+                                        <td><button id="x-left"  type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">x-Left</button></td>
+                                        <td><button id="x-right" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">x-Right</button></td>
+                                        <td><button id="x-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">x-Stop</button></td>
                                     </tr>
-
                                     <tr>                                        
-                                        <td><button id="y-inside" type="button" class="btn btn-primary">y-Inside</button></td>
-                                        <td><button id="y-outside" type="button" class="btn btn-success">y-Outside</button></td>
-                                        <td><button id="y-stop" type="button" class="btn btn-warning">y-Stop</button></td>
+                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Ins.</button></td>
+                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Out.</button></td>
+                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Stop</button></td>
                                     </tr>
-
                                     <tr>                                        
-                                        <td><button id="z-up" type="button" class="btn btn-primary">z-Up</button></td>
-                                        <td><button id="z-down" type="button" class="btn btn-success">z-Down</button></td>
-                                        <td><button id="z-stop" type="button" class="btn btn-warning">z-Stop</button></td>
+                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Up.</button></td>
+                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Down</button></td>
+                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Stop</button></td>
                                     </tr>
-
-                                    <tr>
-                                        <td><button id="left-station-inside" type="button" class="btn btn-primary">Left-Station-Inside</button></td>
-                                        <td><button id="left-station-outside" type="button" class="btn btn-success">Left-Station-Outside</button></td>
-                                        <td><button id="left-station-stop" type="button" class="btn btn-warning">Left-Station-Stop</button></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><button id="right-station-inside" type="button" class="btn btn-primary">Right-Station-Inside</button></td>
-                                        <td><button id="right-station-outside" type="button" class="btn btn-success">Right-Station-Outside</button></td>
-                                        <td><button id="right-station-stop" type="button" class="btn btn-warning">Right-Station-Stop</button></td>
-                                    </tr>
-
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-12">                            
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li><a data-toggle="tab" role="tab" href="#prologHome"  class="btn btn-sm btn-success">Prolog</a></li>
+                                <li><a data-toggle="tab" role="tab" href="#planner"   class="btn btn-sm btn-success">Planner</a></li>
+
+                            </ul>
+                        </div> 
+                    </div> 
+                    <div class="row">
                         <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-12">
+
+                            <div class="tab-content">
+                                <div id="prologHome" class="tab-pane in active">
                                     <label for="prologTextArea">kb-Query</label>
-                                    <textarea class="form-control" id="prologTextArea" rows="6" onkeypress="process(event, this)"></textarea>
+                                    <textarea class="form-control" id="prologTextArea" rows="2" onkeypress="processEnter(event, this)"></textarea>
+                                    <label for="prologTextAnswers">Answers</label>
+                                    <textarea class="form-control" id="prologTextAnswers" rows="2"></textarea>
+                                </div>
+                                <div id="planner" class="tab-pane fade">                                    
+                                    <button id="getInitialStatesButton"  type="button" class="btn btn-primary btn-sm  py-0">Get initial States</button>
+                                    <textarea class="form-control" id="plannerInicialStateText" rows="2"></textarea>
+
+                                    <label for="plannerGoalsLabel">Goals</label>
+                                    <textarea class="form-control" id="plannerGoalsText" rows="2"></textarea>
+
+                                    <button id="generatePlanButton"  type="button" class="btn btn-primary btn-sm  py-0">Generate Plan</button>
+                                    <button id="executePlanButton"  type="button" class="btn btn-primary btn-sm  py-0">Execute</button>
+                                    <textarea class="form-control" id="generatedPlanTextArea" rows="2"></textarea>
+
+                                    <button id="clearLogsButton"  type="button" class="btn btn-primary btn-sm  py-0">Clear logs</button>
+                                    <textarea class="form-control" id="logsText" rows="2"></textarea>
                                 </div>
                             </div>    
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="prologTextAnswers">Answers</label>
-                                    <textarea class="form-control" id="prologTextAnswers" rows="12"></textarea>
-                                </div>
-                            </div>
-                        </div>                    
-                    </div>
+                        </div>
+                    </div>                    
                 </div>
                 <div class="col-sm-8">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12">                            
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe src="http://localhost:8081/ss_multi_parts.html" title="Simulator"></iframe>
-                            </div>
-                        </div>
+                            </div>                            
+                        </div>                        
                     </div>
-                    <div class="row">
-                        <div class="col-sm-1" style="font-size: 12px;">
-                            <label id="xLabel" style="font-size: 12px"></label>
+                    <div class="row">    
+                        <div class="col-sm-1"  style="font-size: 12px;">
+                            <label id="xLabel" style="font-size: 12px;"></label>
                         </div>
                         <div class="col-sm-1" style="font-size: 12px;">
-                            <label id="yLabel" style="font-size: 12px"></label>
+                            <label id="yLabel" style="font-size: 12px;"></label>
                         </div>
                         <div class="col-sm-1" style="font-size: 12px;">
                             <label id="zLabel"></label>
@@ -262,6 +266,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
     </body>
+    
 </html>

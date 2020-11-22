@@ -115,9 +115,47 @@ defrule pick_pallete
                (   y_is_at(3), assert(action(stop_y))),
                (   (y_is_at(3), y_moving(0)), assert(action(move_z_up))),
                (   is_at_z_up, assert(action(stop_z))),
-               (   (is_at_z_down, z_moving(0)), assert(action(move_y_outside))),
+               (   (is_at_z_up, z_moving(0)), assert(action(move_y_outside))),
                (   y_is_at(2), assert(action(stop_y)))
           ],
           assert(sequence(ID,pick_pallete_seq(Seq))),
           retract(pick_pallete(X,Z,Block))
        ].
+
+defrule pick_part_left
+        if pick_part_left_station
+        then [
+            new_id(ID),
+            Seq = [
+                ( true, assert(goto_xz(1,1))),
+                (   (x_is_at(1),z_is_at(1),x_moving(0),z_moving(0)), assert(action(move_z_down))),
+                (   (is_at_z_down,z_moving(0)), assert(action(move_y_outside))),
+                (   y_is_at(1), assert(action(stop_y))),
+                (   (y_is_at(1),y_moving(0)), assert(action(move_z_up))),
+                (   is_at_z_up, assert(action(stop_z))),
+                (   (is_at_z_up,z_moving(0)), assert(action(move_y_inside))),
+                (   y_is_at(2), assert(action(stop_y)))
+            ],
+            assert(sequence(ID,pick_pallete_seq(Seq))),
+            retract(pick_part_left)
+        ].
+
+defrule pick_part_right
+        if pick_part_right_station
+        then [
+            new_id(ID),
+            Seq = [
+                ( true, assert(goto_xz(10,1))),
+                (   (x_is_at(10),z_is_at(1),x_moving(0),z_moving(0)), assert(action(move_z_down))),
+                (   (is_at_z_down,z_moving(0)), assert(action(move_y_outside))),
+                (   y_is_at(1), assert(action(stop_y))),
+                (   (y_is_at(1),y_moving(0)), assert(action(move_z_up))),
+                (   is_at_z_up, assert(action(stop_z))),
+                (   (is_at_z_up,z_moving(0)), assert(action(move_y_inside))),
+                (   y_is_at(2), assert(action(stop_y)))
+            ],
+            assert(sequence(ID,pick_pallete_seq(Seq))),
+            retract(pick_part_right)
+        ].
+
+

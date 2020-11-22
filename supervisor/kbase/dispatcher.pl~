@@ -100,7 +100,7 @@ defrule store_pallete
                (   y_is_at(2), assert(action(stop_y)))
            ],
            assert(sequence(ID,store_pallet_seq,Seq)),
-           retract(put_in_cell(X,Z,Block))
+           retract(store_pallete(X,Z,Block))
        ].
 
 defrule pick_pallete
@@ -121,3 +121,4 @@ defrule pick_pallete
           assert(sequence(ID,pick_pallete_seq(Seq))),
           retract(pick_pallete(X,Z,Block))
        ].
+
