@@ -51,26 +51,36 @@ execute_query(_,false).
 %:-findall(Y, ( member(X,[1,2,3,4]), Y is X*2), L), write(L).
 
 execute_remote_query(Request):-
+	current_output(Curr),
+        set_output(user_output),
         member(search(List), Request),
+        set_output(Curr),
         format('Content-type: text/plain~n~n',[]),
         execute_query(List, Result),
-	nl,
+        nl,
         writeln(Result).
 
 
 
+
 query_dispatcher_json(_Request):-
-	findall( dispatch(Action),
+	current_output(Curr),
+        set_output(user_output),
+         findall( dispatch(Action),
         (
            action(Action)
         ), ListOfActions),
-	retractall(action(_)),
+        retractall(action(_)),
+        set_output(Curr),
         format('Content-type: application/json~n~n', []),
         prolog_to_json(ListOfActions, JSON_EVENTS),
         json_write(current_output,JSON_EVENTS ).
 
 query_forward(_Request):-
+        current_output(Curr),
+        set_output(user_output),
         forward,
+        set_output(Curr),
         format('Content-type: text/plain~n~n',[]),
         nl,writeln('ok'),
         nl.
