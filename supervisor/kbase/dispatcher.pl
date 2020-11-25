@@ -22,6 +22,26 @@ defrule gotox_finish
        retract(goto_x(Xf))
    ].
 
+/*
+defrule gotoz_up
+     if goto_z(Zf) and z_is_at(Zi) and (Zi<Zf) and z_moving(0)
+     then [
+         assert(action(move_z_up))
+     ].
+
+defrule gotoz_down
+     if goto_z(Zf) and z_is_at(Zi) and (Zi>Zf) and z_moving(0)
+     then [
+         assert(action(move_z_down))
+     ].
+
+defrule gotoz_finish
+     if goto_z(Zf) and z_is_at(Zf)
+     then [
+         assert(action(stop_z)),
+         retract(goto_z(Zf))
+     ].
+*/
 
 defrule gotoz_up
      if goto_z(Zf) and z_is_at(Zi) and (Zi<Zf) and z_moving(0)
@@ -42,13 +62,14 @@ defrule gotoz_down
          assert(sequence(ID, gotoz_down_seq,
                     [
                        ( true,         assert(action(move_z_down))       ),
-                       ( z_is_at(Zf),  assert(action(stop_z))     )
+                       ( z_is_at(Zf),  assert(action(stop_z)),retract_safe(goto_z(Zf))  )
                     ]))
      ].
 
 defrule gotoz_finish
-     if goto_z(Zf) and z_is_at(Zf)
+     if goto_z(Zf) and z_is_at(Zf) and stop_z
      then [
+         assert(action(stop_z)),
          retract_safe(goto_z(Zf))
      ].
 
@@ -65,21 +86,21 @@ defrule goto_xz
 defrule gotoy_inside
    if goto_y(Yf)  and y_is_at(Yi) and (Yi<Yf) and y_moving(0)
    then [
-       assert( action(move_y_inside))
+       assert(action(move_y_inside))
    ].
 
 
 defrule gotoy_outside
    if goto_y(Yf)  and y_is_at(Yi) and (Yi>Yf) and y_moving(0)
    then [
-       assert( action(move_y_outside))
+       assert(action(move_y_outside))
    ].
-
+*/
 
 defrule gotoy_finish
    if goto_y(Yf) and y_is_at(Yf)
    then [
-       assert( action(stop_y)),
+       assert(action(stop_y)),
        retract(goto_y(Yf))
    ].
 

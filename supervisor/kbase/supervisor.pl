@@ -5,6 +5,9 @@
 :- http_handler(root(query_dispatcher_json), query_dispatcher_json   , []).
 
 :- http_handler(root(query_forward),	     query_forward	     , []).
+:- http_handler(root(query_warehouse_states), query_warehouse_states, []).
+:- http_handler(root(query_generate_plan), query_generate_plan, []).
+:- http_handler(root(query_execute_plan), query_execute_plan, []).
 
 
 :-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros m�dulos
@@ -17,6 +20,15 @@
 %https://www.swi-prolog.org/pldoc/doc_for?object=section(%27packages/http.html%27)
 
 :- dynamic yy/1.
+
+%occupation or management states
+:-dynamic cell/3, cage/1, left_station/1, right_station/1.
+
+%sensors
+:-dynamic x_is_at/1, y_is_at/1, z_is_at/1.
+:-dynamic x_moving/1, y_moving/1, z_moving/1, left_station_moving/1, right_station_moving/1.
+:-dynamic is_at_z_up/0, is_at_z_down/0, is_part_at_left_station/0, is_part_at_right_station/0, cage/0, cage_has_part/0.
+
 
 
 main:- start_server(8083).
@@ -85,8 +97,67 @@ query_forward(_Request):-
         nl,writeln('ok'),
         nl.
 
+query_warehouse_states(_Request):-
+	current_output(Curr),
+	set_output(user_output),
+	findall( State,
+		 (
+		     %warehouse states
+		     cell(X,Z,Part), State = cell(X,Z,Part);
+		     left_station(Part), State = left_station(Part);
+		     right_station(Part), State = right_station(Part);
+		     cage(Part), State = cage(Part);
 
+		     %sensor states
+		     x_is_at(X), State = x_is_at(X);
+		     y_is_at(Y), State = y_is_at(Y);
+		     z_is_at(Z), State = z_is_at(Z);
+		     x_moving(X), State = x_moving(X);
+		     y_moving(Y), State = y_moving(Y);
+		     % Complete with the other states
+		     z_moving(Z), State = z_moving(Z);
+		     left_station_moving(L), State = left_station_moving(L);
+		     right_station_moving(R), State = right_station_moving(R);
+		     is_at_z_up, State = is_at_z_up;
+		     is_at_z_down, State = is_at_z_down;
+		     is_part_at_left_station, State = is_part_at_left_station;
+		     is_part_at_right_station, State = is_part_at_right_station;
+		     cage_has_part, State = cage_has_part
 
+		 ), ListOfStates),
+	set_output(Curr),
+	format('Content-type: text/plain~n~n',[]),
+	writeq(ListOfStates),nl.
 
+query_generate_plan(Request):-
+	current_output(Curr),
+	set_output(user_output),
+	member(search(List),Request),
+	member(si=StatesIni, List), % initial state
+	member(sf=StatesGoal, List), % final or goal state
+	term_string(Si, StatesIni),
+	term_string(Sf, StatesGoal),
+	(
+	    strips(Si, Sf, OriginatedPlan),!;
+	    OriginatedPlan=[]
+	),
+	set_output(Curr),
+	format('Content-type: text/plain~n~n',[]),
+	writeq(OriginatedPlan).
 
+query_execute_plan(Request):-
+	current_output(Curr),
+	set_output(user_output),
+	member(search(List), Request),
+	member(plan=PlanString, List),
+	member(states=StatesString, List),
 
+	term_string(Plan, PlanString),
+	term_string(States, StatesString),
+
+	prepare_the_plan(States, Plan, Sequence),
+	launch_sequence(Sequence,ID),
+
+	set_output(Curr),
+	format('Content-type: text/plain~n~n',[]),
+	writeq(sequence(ID)).

@@ -11,7 +11,7 @@ act goto_x(Xf)
        pre [x_is_at(Xi), (Xi\==Xf)]
        add [x_is_at(Xf)]
        del [x_is_at(Xi)]
-       endcond [ x_is_at(Xf) ].
+       endcond [x_is_at(Xf)].
 
 act goto_z(Zf)
        pre [z_is_at(Zi), (Zi\==Zf)]
@@ -36,6 +36,7 @@ act take_from_cell(X,Z,Block)
        add [cage(Block)]
        del [cell(X,Z,Block)]
        endcond [cage(Block), not(cell(X,Z,Block))].
+
 /*
 act do_calibration_x
        pre []

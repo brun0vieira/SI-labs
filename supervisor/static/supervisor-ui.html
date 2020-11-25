@@ -11,16 +11,16 @@
 
         <script>
             
-            function ajax_get_request(remote_address, arguments, done_callback = null, fail_callback = null, always_callbak = null)
+            function ajax_get_request(remote_address, the_arguments, done_callback = null, fail_callback = null, always_callbak = null)
             {
-                $.get(remote_address, arguments, function (results) {
+                $.get(remote_address, the_arguments, function (results) {
                     if (done_callback !== null) {
+                        console.log("results"+ results);
                         done_callback(results);
                         //the_modal_dialog.style.display = "none";
                     }
                 }).fail(function () {
-                    //alert("error");
-                    console.log("AJAX error requesting: " + remove_address);
+                    console.log("AJAX error requesting: " + remote_address);
                 }).always(function () {
                     //alert("finished");
                 });
@@ -86,8 +86,33 @@
                 $("#right-station-stop").click(function(){
                     ajax_get_request("/right-station-stop", {"cmd": "right-station-move-stop"});
                 });
+                
+                $("#getInitialStatesButton").click(function() {
+                    ajax_get_request("/query_warehouse_states",null,function(result) {
+                        console.log("Initial_state="+result.trim());
+                        $('#plannerInicialStateText').val(result.trim());
+                   });
+                });
+                
+                $("#generatePlanButton").click(function() {
+                    si=$("#plannerInicialStateText").val(); // initial state
+                    sf=$("#plannerGoalsText").val(); // goals state
+                    ajax_get_request("/query_generate_plan", {"si":si,"sf":sf}, function(result) {
+                        console.log("generated_plan="+result.trim());
+                        $('#generatedPlanTextArea').val(result.trim());
+                    });
+                });
+                
+                $("#executePlanButton").click(function() {
+                    states = $("#plannerInicialStateText").val();
+                    plan = $("#generatedPlanTextArea").val();
+                    ajax_get_request("/query_execute_plan",{"plan":plan,"states":states}, function(result) {
+                        console.log("execute_plan="+result.trim());
+                        $('#logsText').val(result.trim());
+                    });
+                });
+                
             });
-
 
             $("#prologTextArea2").keypress(function (event) {
                 console.log("char=" + event.which);
@@ -99,19 +124,13 @@
                 }
             });
 
-
-            function process(e) {
-                var code = (e.keyCode ? e.keyCode : e.which);
-                if (code == 13) { //Enter keycode
+            function processEnter(e) {
+                if (event.which == 13) {
                     var current_line = getCurrentLine("prologTextArea");
+                    console.log("antes de processar= " +current_line);
                     ajax_get_request("/execute_remote_query", {"query": current_line}, done_executed_query);
-
-
-
-                    console.log("line=" + current_line);
                 }
             }
-
 
             function done_executed_query(result) {
                 //console.log("result=" + result);
@@ -141,7 +160,11 @@
                 $("#zLabel").text("Z: " + obj.z);
                 
                 $("#xMovingLabel").text("xMov: " + obj.x_moving);
+                $("#yMovingLabel").text("yMov: " + obj.y_moving);
+                $("#zMovingLabel").text("zMov: " + obj.z_moving);
+                
                 $("#cageSensorLabel").text("Cg: " + 1 * obj.cage);
+                
             }
             
             let timerId = setTimeout(
@@ -150,6 +173,7 @@
                     timerId = setTimeout(tick,100);
                 }
             ,100);
+            
         </script>
         <style>
             iframe{
@@ -189,14 +213,14 @@
                                         <td><button id="x-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">x-Stop</button></td>
                                     </tr>
                                     <tr>                                        
-                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Ins.</button></td>
-                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Out.</button></td>
-                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Stop</button></td>
+                                        <td><button id="y-inside" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Ins.</button></td>
+                                        <td><button id="y-outside" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Out.</button></td>
+                                        <td><button id="y-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">y-Stop</button></td>
                                     </tr>
                                     <tr>                                        
-                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Up.</button></td>
-                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Down</button></td>
-                                        <td><button type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Stop</button></td>
+                                        <td><button id="z-up" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Up.</button></td>
+                                        <td><button id="z-down" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Down</button></td>
+                                        <td><button id="z-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Stop</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -261,8 +285,15 @@
                             <label id="xMovingLabel"></label>
                         </div>
                         <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="yMovingLabel"></label>
+                        </div>
+                        <div class="col-sm-1" style="font-size: 12px;">
+                            <label id="zMovingLabel"></label>
+                        </div>
+                        <div class="col-sm-1" style="font-size: 12px;">
                             <label id="cageSensorLabel"></label>
                         </div>
+                        
                     </div>
                 </div>
             </div>

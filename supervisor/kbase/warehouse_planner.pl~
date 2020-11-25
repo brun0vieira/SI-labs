@@ -11,7 +11,7 @@ act goto_x(Xf)
        pre [x_is_at(Xi), (Xi\==Xf)]
        add [x_is_at(Xf)]
        del [x_is_at(Xi)]
-       endcond [ x_is_at(Xf) ].
+       endcond [x_is_at(Xf)].
 
 act goto_z(Zf)
        pre [z_is_at(Zi), (Zi\==Zf)]
@@ -51,13 +51,13 @@ act do_calibration_z
 */
 
 act pick_part_left_station
-      pre [is_part_at_left_station, not(cage_has_part)]
+      pre [is_part_at_left_station, not(cage_has_part), x_is_at(1), z_is_at(1)]
       add [cage_has_part]
       del [is_part_at_left_station]
       endcond [cage_has_part].
 
 act pick_part_right_station
-     pre [is_part_at_right_station, not(cage_has_part)]
+     pre [is_part_at_right_station, not(cage_has_part), x_is_at(10), z_is_at(1)]
      add [cage_has_part]
      del [is_part_at_right_station]
      endcond [cage_has_part].

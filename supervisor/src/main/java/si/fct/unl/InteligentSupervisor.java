@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import org.json.JSONString;
 import java.lang.StringBuilder;
 
+
 /*
 This class is based on a Java thread, which runs permanently and will take care of planning,  monitoring, failures detection, diagnosis and recover.
 */
@@ -169,6 +170,32 @@ public class InteligentSupervisor extends Thread{
             req.response().plain(jsonObj.toString());
             return req;
         });
+        
+        // forward the request from html to prolog
+        // receive throught port 8082
+        On.get("/query_warehouse_states").serve(req -> {
+            // Send it to port 8083 - which is where prolog is
+            String result = this.executePrologQuery("query_warehouse_states");
+            req.response().plain(result);
+            return req;
+        });
+        
+        On.get("/query_generate_plan").serve(req -> {
+            String the_query = "query_generate_plan?" + "si=" + URLEncoder.encode(req.param("si"),StandardCharsets.UTF_8) + "&"
+                                                      + "sf=" + URLEncoder.encode(req.param("sf"),StandardCharsets.UTF_8);
+            String result = this.executePrologQuery(the_query);
+            req.response().plain(result);
+            return req;
+        });
+        
+        On.get("/query_execute_plan").serve(req-> {
+            String the_query = "query_execute_plan?" + "plan=" + URLEncoder.encode(req.param("plan"),StandardCharsets.UTF_8) + "&"
+                                                   + "states=" + URLEncoder.encode(req.param("states"),StandardCharsets.UTF_8);
+            String result = this.executePrologQuery(the_query);
+            req.response().plain(result);
+            return req;
+        });    
+        
     }
     
     synchronized String executePrologQuery(String query)
@@ -265,6 +292,7 @@ public class InteligentSupervisor extends Thread{
     
     public void executeAction(String action)
     {
+        
         if(action.equalsIgnoreCase("move_x_right")){
             warehouse.moveXRight();
         }
@@ -273,6 +301,24 @@ public class InteligentSupervisor extends Thread{
         }
         else if(action.equalsIgnoreCase("stop_x")){
             warehouse.stopX();
+        }
+        else if(action.equalsIgnoreCase("move_z_up")) {
+            warehouse.moveZUp();
+        }
+        else if(action.equalsIgnoreCase("move_z_down")) {
+            warehouse.moveZDown();
+        }
+        else if(action.equalsIgnoreCase("stop_z")){
+            warehouse.stopZ();
+        }
+        else if(action.equalsIgnoreCase("move_y_inside")){
+            warehouse.moveYInside();
+        }
+        else if(action.equalsIgnoreCase("move_y_outside")){
+            warehouse.moveYOutside();
+        }
+        else if(action.equalsIgnoreCase("stop_y")) {
+            warehouse.stopY();
         }
         else{
             System.out.printf("Dispatcher: Action %s means nothing to me. Go away! \n", action);
@@ -285,15 +331,22 @@ public class InteligentSupervisor extends Thread{
     public synchronized JSONObject obtainSensorInformation(){
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("x", warehouse.getXPosition());
-        jsonObj.put("y", warehouse.getXPosition());
-        jsonObj.put("z", warehouse.getXPosition());
+        jsonObj.put("y", warehouse.getYPosition());
+        jsonObj.put("z", warehouse.getZPosition());
         
         jsonObj.put("x_moving", warehouse.getXMoving());
-        jsonObj.put("y_moving", warehouse.getXPosition());
-        jsonObj.put("z_moving", warehouse.getXPosition());
+        jsonObj.put("y_moving", warehouse.getYMoving());
+        jsonObj.put("z_moving", warehouse.getZMoving());
         jsonObj.put("cage", warehouse.isPartInCage());
         
         // complete for the remaining sensors
+        jsonObj.put("left_station_moving", warehouse.getLeftStationMoving());
+        jsonObj.put("right_station_moving", warehouse.getRightStationMoving());
+        jsonObj.put("is_at_z_up", warehouse.isAtZUp());
+        jsonObj.put("is_at_z_down", warehouse.isAtZDown());
+        jsonObj.put("is_part_at_left_station", warehouse.isPartOnLeftStation());
+        jsonObj.put("is_part_at_right_station", warehouse.isPartOnRightStation());
+        jsonObj.put("cage_has_part", warehouse.isPartInCage());
         
         return jsonObj;
     }

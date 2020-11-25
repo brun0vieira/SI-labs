@@ -56,13 +56,13 @@ int getXPosition()
 
 int getYPosition()
 {
-	int bb[2] = { 4,3 };
+	int bb[3] = { 2,3,4 };
 	int port;
 
 	port = readDigitalU8(1);           //port1
 
-	for (int i = 0; i < 2; i++) {
-		if (getBitValue(port, bb[i]))  // active high
+	for (int i = 0; i < 3; i++) {
+		if (!getBitValue(port, bb[i]))  // active low
 			return i + 1;
 	}
 
@@ -92,11 +92,11 @@ int getXMoving()
 	uInt8 port = readDigitalU8(4); 
 
 	if (getBitValue(port, 0)) // returns 0 se está a mover para a direita
-		return 0;
+		return 1;//return 0;
 	else if (getBitValue(port, 1)) // returns 1 se está a mover para a esquerda
 		return 1;
 	else
-		return (-1);
+		return 0;//return (-1);
 	
 }
 
@@ -105,11 +105,11 @@ int getYMoving()
 	uInt8 port = readDigitalU8(4);
 
 	if (getBitValue(port, 4)) // returns 0 se está a mover para dentro
-		return 0;
+		return 1;//return 0;
 	else if (getBitValue(port, 3)) // returns 1 se está a mover para fora
 		return 1;
 	else
-		return (-1);
+		return 0;//return (-1);
 }
 
 int getZMoving()
@@ -117,11 +117,11 @@ int getZMoving()
 	uInt8 port = readDigitalU8(4);
 
 	if (getBitValue(port, 5)) // returns 0 se está a mover para cima
-		return 0;
+		return 1;//return 0;
 	else if (getBitValue(port, 6)) // returns 1 se está a mover para baixo
 		return 1;
 	else
-		return (-1);
+		return 0;//return (-1);
 }
 
 int getLeftStationMoving()
