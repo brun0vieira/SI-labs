@@ -95,7 +95,7 @@ defrule gotoy_outside
    then [
        assert(action(move_y_outside))
    ].
-*/
+
 
 defrule gotoy_finish
    if goto_y(Yf) and y_is_at(Yf)

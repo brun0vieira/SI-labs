@@ -251,6 +251,21 @@ public class InteligentSupervisor extends Thread{
         queryStates.append(String.format(",assert_once(x_moving(%d))",warehouse.getXMoving()));
         queryStates.append(String.format(",assert_once(y_moving(%d))",warehouse.getYMoving()));
         queryStates.append(String.format(",assert_once(z_moving(%d))",warehouse.getZMoving()));
+      
+        if(warehouse.isPartOnLeftStation())
+        {
+            queryStates.append(",assert_once(is_part_at_left_station)");
+        } 
+        
+        if(warehouse.isPartOnRightStation())
+        {
+            queryStates.append(",assert_once(is_part_at_right_station)");
+        } 
+        
+        if(warehouse.isPartInCage())
+        {
+            queryStates.append(",assert_once(cage_has_part)");
+        } 
         
         //System.out.println("query=" + queryState.toString()); //user this to test if ok
         String encodedStates = URLEncoder.encode(queryStates.toString(), StandardCharsets.UTF_8);

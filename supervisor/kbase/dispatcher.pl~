@@ -49,7 +49,7 @@ defrule gotoz_up
          new_id(ID),
          Seq = [
                  ( true,          assert(action(move_z_up))                          ),
-                 ( (z_is_at(Zf),z_moving(0)),   assert(action(stop_z))   )
+                 ( z_is_at(Zf),   assert(action(stop_z)), retract_safe(goto_z(Zf))   )
                ],
          assert(sequence(ID, gotoz_up_seq,Seq))
      ].
@@ -62,12 +62,12 @@ defrule gotoz_down
          assert(sequence(ID, gotoz_down_seq,
                     [
                        ( true,         assert(action(move_z_down))       ),
-                       ( (z_is_at(Zf),z_moving(0)),  assert(action(stop_z))     )
+                       ( z_is_at(Zf),  assert(action(stop_z)),retract_safe(goto_z(Zf))  )
                     ]))
      ].
 
 defrule gotoz_finish
-     if goto_z(Zf) and z_is_at(Zf)
+     if goto_z(Zf) and z_is_at(Zf) and stop_z
      then [
          assert(action(stop_z)),
          retract_safe(goto_z(Zf))
