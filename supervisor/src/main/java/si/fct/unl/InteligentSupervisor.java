@@ -261,11 +261,12 @@ public class InteligentSupervisor extends Thread{
         {
             queryStates.append(",assert_once(is_part_at_right_station)");
         } 
-        
+       
         if(warehouse.isPartInCage())
         {
             queryStates.append(",assert_once(cage_has_part)");
-        } 
+        }
+        
         
         //System.out.println("query=" + queryState.toString()); //user this to test if ok
         String encodedStates = URLEncoder.encode(queryStates.toString(), StandardCharsets.UTF_8);
