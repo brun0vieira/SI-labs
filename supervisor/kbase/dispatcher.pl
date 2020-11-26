@@ -22,26 +22,6 @@ defrule gotox_finish
        retract(goto_x(Xf))
    ].
 
-/*
-defrule gotoz_up
-     if goto_z(Zf) and z_is_at(Zi) and (Zi<Zf) and z_moving(0)
-     then [
-         assert(action(move_z_up))
-     ].
-
-defrule gotoz_down
-     if goto_z(Zf) and z_is_at(Zi) and (Zi>Zf) and z_moving(0)
-     then [
-         assert(action(move_z_down))
-     ].
-
-defrule gotoz_finish
-     if goto_z(Zf) and z_is_at(Zf)
-     then [
-         assert(action(stop_z)),
-         retract(goto_z(Zf))
-     ].
-*/
 
 defrule gotoz_up
      if goto_z(Zf) and z_is_at(Zi) and (Zi<Zf) and z_moving(0)
