@@ -52,13 +52,13 @@ act do_calibration_z
 */
 
 act pick_part_left_station
-      pre [is_part_at_left_station, not(cage_has_part), x_is_at(1), z_is_at(1)]
-      add [cage_has_part]
+      pre [is_part_at_left_station, x_is_at(1), z_is_at(1)]
+      add [cage(Block)]
       del [is_part_at_left_station]
-      endcond [cage_has_part].
+      endcond [cage(Block)].
 
 act pick_part_right_station
-     pre [is_part_at_right_station, not(cage_has_part), x_is_at(10), z_is_at(1)]
-     add [cage_has_part]
+     pre [is_part_at_right_station, x_is_at(10), z_is_at(1)]
+     add [cage(Block)]
      del [is_part_at_right_station]
-     endcond [cage_has_part].
+     endcond [cage(Block)].
