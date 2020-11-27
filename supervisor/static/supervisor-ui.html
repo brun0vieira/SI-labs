@@ -86,6 +86,12 @@
                 $("#right-station-stop").click(function(){
                     ajax_get_request("/right-station-stop", {"cmd": "right-station-move-stop"});
                 });
+                $("#add-part-left").click(function(){
+                    ajax_get_request("/add-part-left-station", {"cmd": "add-part-left-station"});
+                });
+                $("#add-part-right").click(function(){
+                    ajax_get_request("/add-part-right-station", {"cmd": "add-part-right-station"});
+                });
                 
                 $("#getInitialStatesButton").click(function() {
                     ajax_get_request("/query_warehouse_states",null,function(result) {
@@ -221,6 +227,10 @@
                                         <td><button id="z-up" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Up.</button></td>
                                         <td><button id="z-down" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Down</button></td>
                                         <td><button id="z-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Stop</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button id="add-part-left" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Add part left station</button></td>
+                                        <td><button id="add-part-right" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Add part right station</button></td>
                                     </tr>
                                 </tbody>
                             </table>

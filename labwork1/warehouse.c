@@ -130,11 +130,11 @@ int getLeftStationMoving()
 	uInt8 port_out = readDigitalU8(5);
 
 	if (getBitValue(port_in, 7)) // returns 0 se está a mover para dentro
-		return 0;
+		return 1;//return 0;
 	else if (getBitValue(port_out, 0)) // returns 1 se está a mover para fora
 		return 1;
 	else
-		return (-1);
+		return 0;//return (-1);
 }
 
 int getRightStationMoving() {
@@ -142,11 +142,11 @@ int getRightStationMoving() {
 	uInt8 port = readDigitalU8(5);
 
 	if (getBitValue(port, 1)) // returns 0 se está a mover para dentro
-		return 0;
+		return 1;//return 0;
 	else if (getBitValue(port, 2)) // returns 1 se está a mover para fora
 		return 1;
 	else
-		return (-1);
+		return 0;//return (-1);
 }
 
 bool isAtZUp()

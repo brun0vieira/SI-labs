@@ -1,4 +1,5 @@
 :-ensure_loaded('RTXengine/RTXstrips_planner').
+:-ensure_loaded('RTXengine/RTXutil').
 
 act goto_xz(Xf, Zf)
        pre [x_is_at(Xi), z_is_at(Zi), (Xi\==Xf, Zi\==Zf)]
@@ -51,14 +52,14 @@ act do_calibration_z
       endcond [z_is_at(0)].
 */
 
-act pick_part_left_station
-      pre [is_part_at_left_station, x_is_at(1), z_is_at(1)]
+act pick_part_left_station(Block)
+      pre [x_is_at(1), z_is_at(1), not(cage(Block))]
       add [cage(Block)]
-      del [is_part_at_left_station]
-      endcond [cage(Block)].
+      del []
+      endcond [cage_has_part, y_is_at(2), is_at_z_down].
 
-act pick_part_right_station
-     pre [is_part_at_right_station, x_is_at(10), z_is_at(1)]
+act pick_part_right_station(Block)
+     pre [x_is_at(10), z_is_at(1), not(cage(Block))]
      add [cage(Block)]
-     del [is_part_at_right_station]
-     endcond [cage(Block)].
+     del []
+     endcond [cage_has_part, y_is_at(2), is_at_z_down].

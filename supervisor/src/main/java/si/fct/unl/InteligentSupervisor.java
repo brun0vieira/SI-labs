@@ -148,6 +148,27 @@ public class InteligentSupervisor extends Thread{
             req.response().plain("OK");
             return req; 
         });
+        
+        On.get("/add-part-left-station").serve(req ->
+        {
+            warehouse.moveLeftStationInside();
+            while(!(warehouse.isPartOnLeftStation())){
+            } 
+            warehouse.stopLeftLtation();
+            
+            req.response().plain("OK");
+            return req;
+        });
+        On.get("/add-part-right-station").serve(req ->
+        {
+            warehouse.moveRightStationInside();
+            while(!(warehouse.isPartOnRightStation())){
+            } 
+            warehouse.stopRightStation();
+            
+            req.response().plain("OK");
+            return req;
+        });
           
         On.get("/execute_remote_query").serve(new ReqHandler() {
             @Override
@@ -237,8 +258,7 @@ public class InteligentSupervisor extends Thread{
         else{
             queryStates.append(",retractall(y_is_at(_))");
         } 
-
-                
+        
         position = warehouse.getZPosition();
         
         if(position != -1 ){
@@ -251,30 +271,45 @@ public class InteligentSupervisor extends Thread{
         queryStates.append(String.format(",assert_once(x_moving(%d))",warehouse.getXMoving()));
         queryStates.append(String.format(",assert_once(y_moving(%d))",warehouse.getYMoving()));
         queryStates.append(String.format(",assert_once(z_moving(%d))",warehouse.getZMoving()));
-      
-        if(warehouse.isPartOnLeftStation())
-        {
+        
+        // completar aqui o resto dos sensores
+        // left_station_moving, right_station_moving, is_at_z_up, is_at_z_down, is_part_at_left_station, is_part_at_right_station
+        
+        if(warehouse.isPartOnLeftStation()) 
             queryStates.append(",assert_once(is_part_at_left_station)");
-        } 
+            else
+                queryStates.append(",retractall(is_part_at_left_station)");
         
         if(warehouse.isPartOnRightStation())
-        {
             queryStates.append(",assert_once(is_part_at_right_station)");
-        } 
-       
+            else
+                queryStates.append(",retractall(is_part_at_right_station)");
+        
         if(warehouse.isPartInCage())
-        {
             queryStates.append(",assert_once(cage_has_part)");
-        }
+            else
+                queryStates.append(",retractall(cage_has_part)");
         
+        if(warehouse.isAtZUp())
+            queryStates.append(",assert_once(is_at_z_up)");
+            else
+                queryStates.append(",retractall(is_at_z_up)");
         
+        if(warehouse.isAtZDown())
+            queryStates.append(",assert_once(is_at_z_down)");
+            else
+                queryStates.append(",retractall(is_at_z_down)");
+        /*
+        queryStates.append(String.format(",assert_once(left_station_moving(%d)",warehouse.getLeftStationMoving()));
+        
+        queryStates.append(String.format(",assert_once(right_station_moving(%d)",warehouse.getRightStationMoving()));
+        */
         //System.out.println("query=" + queryState.toString()); //user this to test if ok
         String encodedStates = URLEncoder.encode(queryStates.toString(), StandardCharsets.UTF_8);
         
         String result = this.executePrologQuery("execute_remote_query?query=" + encodedStates);
         //System.out.println(result);
     }
-    
         
     public void run() {
         while (!interrupted) {
@@ -335,6 +370,24 @@ public class InteligentSupervisor extends Thread{
         }
         else if(action.equalsIgnoreCase("stop_y")) {
             warehouse.stopY();
+        }
+        else if(action.equalsIgnoreCase("move_left_station_inside")){
+            warehouse.moveLeftStationInside();
+        }
+        else if(action.equalsIgnoreCase("move_left_station_outside")){
+            warehouse.moveLeftStationOutside();
+        }
+        else if(action.equalsIgnoreCase("stop_left_station")){
+            warehouse.stopLeftLtation();
+        }
+        else if(action.equalsIgnoreCase("move_right_station_inside")){
+            warehouse.moveRightStationInside();
+        }
+        else if(action.equalsIgnoreCase("move_right_station_outside")){
+            warehouse.moveRightStationOutside();
+        }
+        else if(action.equalsIgnoreCase("stop_right_station")){
+            warehouse.stopRightStation();
         }
         else{
             System.out.printf("Dispatcher: Action %s means nothing to me. Go away! \n", action);
