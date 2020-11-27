@@ -299,11 +299,11 @@ public class InteligentSupervisor extends Thread{
             queryStates.append(",assert_once(is_at_z_down)");
             else
                 queryStates.append(",retractall(is_at_z_down)");
-        /*
-        queryStates.append(String.format(",assert_once(left_station_moving(%d)",warehouse.getLeftStationMoving()));
         
-        queryStates.append(String.format(",assert_once(right_station_moving(%d)",warehouse.getRightStationMoving()));
-        */
+        queryStates.append(String.format(",assert_once(left_station_moving(%d))",warehouse.getLeftStationMoving()));
+        
+        queryStates.append(String.format(",assert_once(right_station_moving(%d))",warehouse.getRightStationMoving()));
+        
         //System.out.println("query=" + queryState.toString()); //user this to test if ok
         String encodedStates = URLEncoder.encode(queryStates.toString(), StandardCharsets.UTF_8);
         

@@ -5,7 +5,7 @@ act goto_xz(Xf, Zf)
        pre [x_is_at(Xi), z_is_at(Zi), (Xi\==Xf, Zi\==Zf)]
        add [x_is_at(Xf), z_is_at(Zf)]
        del [x_is_at(Xi), z_is_at(Zi)]
-       endcond [x_is_at(Xf), z_is_at(Zf)].
+       endcond [x_is_at(Xf),z_is_at(Zf)].
 
 
 act goto_x(Xf)
@@ -30,7 +30,7 @@ act put_in_cell(X,Z,Block)
        pre [cage(Block), x_is_at(X),z_is_at(Z), not(cell(X,Z,_))]
        add [cell(X,Z,Block)]
        del [cage(Block)]
-       endcond [not(cage(Block)), cell(X,Z,Block)].
+       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
 
 act take_from_cell(X,Z,Block)
        pre [cell(X,Z,Block), x_is_at(X), z_is_at(Z), not(cage(_))]
@@ -63,3 +63,21 @@ act pick_part_right_station(Block)
      add [cage(Block)]
      del []
      endcond [cage_has_part, y_is_at(2), is_at_z_down].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
