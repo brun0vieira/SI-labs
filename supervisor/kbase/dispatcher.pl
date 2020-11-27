@@ -17,7 +17,7 @@ defrule gotox_finish
    if goto_x(Xf) and x_is_at(Xf)
    then [
        assert(action(stop_x)),
-       retract_safe(goto_x(Xf))
+       retract(goto_x(Xf))
    ].
 
 defrule gotoz_up
@@ -26,10 +26,9 @@ defrule gotoz_up
          new_id(ID),
          Seq = [
                  ( true,          assert(action(move_z_up))),
-                 ( z_is_at(Zf),   assert(action(stop_z)))
+                 ( z_is_at(Zf),   assert(action(stop_z)), retract_safe(goto_z(Zf)))
                ],
-         assert(sequence(ID, gotoz_up_seq,Seq)),
-         retract(goto_z(Zf))
+         assert(sequence(ID, gotoz_up_seq,Seq))
      ].
 
 
@@ -39,11 +38,17 @@ defrule gotoz_down
          new_id(ID),
          Seq = [
                  ( true,         assert(action(move_z_down))),
-                 ( z_is_at(Zf),  assert(action(stop_z)))
+                 ( z_is_at(Zf),  assert(action(stop_z)), retract_safe(goto_z(Zf)))
          ],
-         assert(sequence(ID, gotoz_down_seq, Seq)),
-         retract(goto_z(Zf))
+         assert(sequence(ID, gotoz_down_seq, Seq))
      ].
+
+defrule gotoz_finish
+     if goto_z(Zf) and z_is_at(Zf) and stop_z
+     then [
+         retract_safe(goto_z(Zf))
+     ].
+
 
 defrule goto_xz
     if  goto_xz(X,Z) and not(goto_x(_)) and not(goto_z(_)) %deixa fazer goto_xz(X,Z) simultaneaos
