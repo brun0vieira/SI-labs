@@ -97,10 +97,8 @@ query_forward(_Request):-
         nl,writeln('ok'),
         nl.
 
-query_warehouse_states(_Request):-
-	current_output(Curr),
-	set_output(user_output),
-	findall( State,
+get_warehouse_states(ListOfStates):-
+        findall( State,
 		 (
 		     %warehouse states
 		     cell(X,Z,Part), State = cell(X,Z,Part);
@@ -124,7 +122,12 @@ query_warehouse_states(_Request):-
 		     is_part_at_right_station, State = is_part_at_right_station;
 		     cage_has_part, State = cage_has_part
 
-		 ), ListOfStates),
+		 ), ListOfStates).
+
+query_warehouse_states(_Request):-
+	current_output(Curr),
+	set_output(user_output),
+	get_warehouse_states(ListOfStates),
 	set_output(Curr),
 	format('Content-type: text/plain~n~n',[]),
 	writeq(ListOfStates),nl.
