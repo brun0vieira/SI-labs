@@ -25,6 +25,7 @@ public class WebServer {
         My.errorHandler((req, resp, error) -> {
             return resp.code(200).result("Error " + error.getMessage());
         });
+        //System.out.println("hey");
     }
     
     
