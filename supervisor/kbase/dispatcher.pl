@@ -97,7 +97,7 @@ defrule store_pallete
        ].
 
 defrule pick_pallete
-       if take_from_cell(X,Z,Block)
+       if take_from_cell(X,Z,Block) and not(cage_has_part)
        then [
            new_id(ID),
            Seq = [
@@ -151,3 +151,69 @@ defrule pick_part_right
            retract_safe(pick_part_right_station(Block))
        ].
 
+
+defrule actions_into_monitoring_goals
+if true
+then [
+
+    findall(
+        _IgnoredFact,
+        (
+            action(Action),
+            retractall(goal(action(Action))),
+            assert(goal(action(Action)))
+        ),
+        _IgnoredList
+    )
+].
+
+
+defrule x_position_estimation
+if x_is_at(X) and x_moving(Mov) and (Mov\==0)
+then[
+
+    X_near is X+0.5*Mov,
+    assert_once(x_is_near(X_near)),
+    assert_once(x_before(X))
+].
+
+defrule time_of_event_x_is_at
+if x_is_at(X) and not(time(x_is_at(_), _))
+then [
+
+    retractall(time(x_is_at(_), _) ),
+    get_time(Time),
+    assert(time(x_is_at(X),Time))
+].
+
+%test if actuador xx is moving past x=10
+defrule beyond_last_sensor_error
+if goal(action(move_x_right))
+               and not(failure(x10_failure, ,, _, _))    %avoid avalancche of failure facts
+               and not(x_is_at(_))
+               and x_is_near(X)
+               and (X>10)
+               and x_moving(1)
+               then [           %adjust the time aqccording to the simulator speed
+   get_warehouse_states(States),
+   findall( goal(G), goal(G), Goals),
+   get_time(Time_now),
+   assert(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))/*,
+   writeq(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))*/
+].
+
+%test if xx=5, goto_x(1) and missing sensor xx=2
+%defrule missing_sensor_x_2
+%if(goal()
+
+% SPECIFY ALL THE OTHER RULES HERE
+
+defrule diagnose_failures_rule
+if failure(Type, TimeStamp, Description, States, Goals) then[
+   Failure = failure(Type, TimeStamp, Description, States, Goals),                   findall( _Ignore1 ,                                                                         diag(Failure), % <-- CALLING DIAGNOSIS
+            _Ignore2),
+   retract(Failure),
+   % save the failure to be shown in the html UI-console(NEXT CLASS)
+   assert(failures_to_json(Failure)),
+   writeln(Failure)
+].

@@ -217,6 +217,22 @@ public class InteligentSupervisor extends Thread{
             return req;
         });    
         
+        On.get("/query_read_failures").serve(req -> {            
+            // Send it to port 8083 (which is where Prolog is)            
+            String result = this.executePrologQuery("query_read_failures");
+            req.response().plain(result);
+            return req;
+        });
+        
+        On.get("/query_recover_failures").serve(req -> {            
+            String the_query = "query_recover_failures";  
+            String result = this.executePrologQuery(the_query);
+            req.response().plain(result);
+            return req;
+        });
+
+
+        
     }
     
     synchronized String executePrologQuery(String query)
@@ -287,8 +303,9 @@ public class InteligentSupervisor extends Thread{
         
         if(warehouse.isPartInCage())
             queryStates.append(",assert_once(cage_has_part)");
-            else
-                queryStates.append(",retractall(cage_has_part)");
+        else
+            queryStates.append(",retractall(cage_has_part)");
+
         
         if(warehouse.isAtZUp())
             queryStates.append(",assert_once(is_at_z_up)");

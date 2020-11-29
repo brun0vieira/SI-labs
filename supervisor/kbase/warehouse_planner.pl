@@ -36,7 +36,8 @@ act take_from_cell(X,Z,Block)
        pre [cell(X,Z,Block), x_is_at(X), z_is_at(Z), not(cage(_))]
        add [cage(Block)]
        del [cell(X,Z,Block)]
-       endcond [cage(Block), not(cell(X,Z,Block))].
+       %endcond [cage(Block), not(cell(X,Z,Block))].
+       endcond [cage_has_part,y_is_at(2), is_at_z_down].
 
 /*
 act do_calibration_x
@@ -53,13 +54,13 @@ act do_calibration_z
 */
 
 act pick_part_left_station(Block)
-      pre [x_is_at(1), z_is_at(1), not(cage(Block))]
+      pre [x_is_at(1), z_is_at(1), not(cage(Block)), not(cell(_,_,Block))]
       add [cage(Block)]
       del []
       endcond [cage_has_part, y_is_at(2), is_at_z_down].
 
 act pick_part_right_station(Block)
-     pre [x_is_at(10), z_is_at(1), not(cage(Block))]
+     pre [x_is_at(10), z_is_at(1), not(cage(Block)),not(cell(_,_,Block))]
      add [cage(Block)]
      del []
      endcond [cage_has_part, y_is_at(2), is_at_z_down].

@@ -1,0 +1,22 @@
+
+
+/*
+problemas, sintomas, soluções
+
+
+
+https://www.codepoc.io/blog/prolog/5060/prolog-program-of-medical-diagnosis-system-of-childhood-decease
+doencas, sintomas, hipoteses
+
+*/
+
+
+:-ensure_loaded('web_services').
+:-ensure_loaded('warehouse_planner').
+
+
+:-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros mï¿½dulos
+:-include('monitoring.pl').
+
+:-dynamic res_sult/1.
+:-dynamic action/1.

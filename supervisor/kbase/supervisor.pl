@@ -8,13 +8,18 @@
 :- http_handler(root(query_warehouse_states), query_warehouse_states, []).
 :- http_handler(root(query_generate_plan), query_generate_plan, []).
 :- http_handler(root(query_execute_plan), query_execute_plan, []).
+:- http_handler(root(query_read_failures), query_read_failures  , []).
+:- http_handler(root(query_recover_failures), query_recover_failures  , []).
+
 
 
 :-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros m�dulos
 :-include('monitoring.pl').
+:-include('diagnosis.pl').
 
 :-dynamic res_sult/1.
 :-dynamic action/1.
+:-dynamic failures_to_json/1.
 
 %http://www.pathwayslms.com/swipltuts/html/index.html
 %https://www.swi-prolog.org/pldoc/doc_for?object=section(%27packages/http.html%27)
@@ -112,6 +117,7 @@ get_warehouse_states(ListOfStates):-
 		     z_is_at(Z), State = z_is_at(Z);
 		     x_moving(X), State = x_moving(X);
 		     y_moving(Y), State = y_moving(Y);
+
 		     % Complete with the other states
 		     z_moving(Z), State = z_moving(Z);
 		     left_station_moving(L), State = left_station_moving(L);
@@ -164,3 +170,31 @@ query_execute_plan(Request):-
 	set_output(Curr),
 	format('Content-type: text/plain~n~n',[]),
 	writeq(sequence(ID)).
+
+
+assert_goal(Goal):-
+	assert(Goal),
+	assert(goal(Goal)).
+
+query_read_failures(_Request):-
+	current_output(Curr),
+	set_output(user_output),
+	(
+	    failures_to_json(Failure),
+	    !;
+	    Failure=no_failures
+	),
+	set_output(Curr),
+        format('Content-type: text/plain~n~n',[]),
+        writeq(Failure),
+	!. % show one failure at the time
+
+
+query_recover_failures(_Request):-
+	current_output(Curr),
+	set_output(user_output),
+	recover_failure,
+	set_output(Curr),
+        format('Content-type: text/plain~n~n',[]),
+        writeln(ok),
+        !.   % recover a failure at a time
