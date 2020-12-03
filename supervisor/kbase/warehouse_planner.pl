@@ -48,13 +48,13 @@ act pick_closest_part(Block)
       add [cage(Block)]
       del []
       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
-/*
+
 act put_in_cell(X,Z,Block)
-      pre []
-      add []
-      del []
-      endcond [].
-*/
+      pre [not(cell(X,Z,_)),cage(Block),not(cell(_,_,Block))]
+      add [cell(X,Z,Block)]
+      del [cage(Block)]
+      endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
+
 /*
 
 act put_in_cell(X,Z,Block)

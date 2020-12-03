@@ -166,18 +166,28 @@ defrule pick_part_right
          assert(sequence(ID,pick_part_right_seq,Seq)),
          retract_safe(pick_closest_part(Block))
      ].
-/*
+
 defrule put_part_in_cell
-     if put_in_cell(X,Z,Block)
+     if put_in_cell(X,Z,Block) and cage_has_part
      then [
+         new_id(ID),
+         Seq = [
+             (   true, assert(goto_xz(X,Z))),
+             (   (x_is_at(X),z_is_at(Z)), assert(action(move_z_up))),
+             (   is_at_z_up, assert(action(stop_z))),
+             (   (is_at_z_up,z_moving(0)), assert(goto_y(3))),
+             (   y_is_at(3), assert(action(move_z_down))),
+             (   is_at_z_down, assert(action(stop_z))),
+             (   (is_at_z_down,z_moving(0)), assert(goto_y(2)))
+         ],
+         assert(sequence(ID,put_part_in_cell,Seq)),
+         retract_safe(put_in_cell(X,Z,Block))
      ].
-*/
+
+
      /*
       *
       *
-
-
-
        ].
 
 defrule store_pallete
