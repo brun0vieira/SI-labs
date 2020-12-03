@@ -56,47 +56,31 @@ act take_from_cell(X,Z,Block)
       del [cell(X,Z,Block)]
       endcond [cage_has_part,y_is_at(2),is_at_z_down].
 
-      /*
 
+% Blocks world
 
-act take_from_cell(X,Z,Block)
-       pre [cell(X,Z,Block), x_is_at(X), z_is_at(Z), not(cage(_))]
-       add [cage(Block)]
-       del [cell(X,Z,Block)]
-       endcond [cage(Block), not(cell(X,Z,Block))].
-       %endcond [cage_has_part, y_is_at(2), is_at_z_down].
+act stack(X,Y)
+      pre [clear(Y),holding(X)]
+      add [on(X,Y),clear(X),handempty]
+      del [clear(Y),holding(X)]
+      endcond [do_next].
 
+act unstack(X,Y)
+      pre [on(X,Y),clear(X),handempty]
+      add [clear(Y),holding(X)]
+      del [on(X,Y),clear(X),handempty]
+      endcond [do_next].
 
-act do_calibration_x
-       pre []
-       add[x_is_at(0)]
-       del []
-       endcond [x_is_at(0)].
+act pickup(X)
+      pre [ontable(X), clear(X), handempty]
+      add [holding(X)]
+      del [ontable(X), clear(X), handempty]
+      endcond [do_next].
 
-act do_calibration_z
-      pre []
-      add[z_is_at(0)]
-      del []
-      endcond [z_is_at(0)].
+act putdown(X)
+      pre [holding(X)]
+      add [ontable(X), clear(X), handempty]
+      del [holding(X)]
+      endcond [do_next].
 
-
-act pick_part_left_station(Block)
-      pre [x_is_at(1), z_is_at(1), not(cage(Block)), not(cell(_,_,Block))]
-      add [cage(Block)]
-      del []
-      endcond [cage_has_part, y_is_at(2), is_at_z_down].
-
-act pick_part_right_station(Block)
-     pre [x_is_at(10), z_is_at(1), not(cage(Block)),not(cell(_,_,Block))]
-     add [cage(Block)]
-     del []
-     endcond [cage_has_part, y_is_at(2), is_at_z_down].
-
-
-
-
-
-*/
-
-
-
+% acabar

@@ -107,6 +107,13 @@
                    });
                 });
                 
+                
+                $("#convertBlocksWorld").click(function() {
+                    $('#plannerInicialStateText').val('Continuar o blocks world...');
+                });
+                        
+                        
+                
                 $("#generatePlanButton").click(function() {
                     si=$("#plannerInicialStateText").val(); // initial state
                     sf=$("#plannerGoalsText").val(); // goals state
@@ -291,8 +298,9 @@
                                 </div>
                                 <div id="planner" class="tab-pane fade">                                    
                                     <button id="getInitialStatesButton"  type="button" class="btn btn-primary btn-sm  py-0">Get initial States</button>
+                                    <button id="convertBlocksWorld"  type="button" class="btn btn-primary btn-sm  py-0">Convert to Blocks World</button>
                                     <textarea class="form-control" id="plannerInicialStateText" rows="2"></textarea>
-
+                                    
                                     <label for="plannerGoalsLabel">Goals</label>
                                     <textarea class="form-control" id="plannerGoalsText" rows="2"></textarea>
 

@@ -7,6 +7,8 @@ diag(failure(x10_failure, _TimeStamp, _Descripton, _States, _Goals)):-
     assert(sequence(ID, recovery_x_10, Sequence)),
     assert(plan_to_json(Sequence)).
 
+
+
 recover_failure:-
     % dummy recovery, use if it suits you
     write('recovering a failure'),

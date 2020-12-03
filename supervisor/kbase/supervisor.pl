@@ -198,3 +198,28 @@ query_recover_failures(_Request):-
         format('Content-type: text/plain~n~n',[]),
         writeln(ok),
         !.   % recover a failure at a time
+
+% Blocks world
+
+convert_to_blocks_world(WarehouseStates, BlockWorldStates):-
+    convert_to_blocks_world(WarehouseStates,WarehouseStates, BlockWorldStates).
+
+convert_to_blocks_world(_,[],[]).
+
+convert_to_blocks_world(InitialStates, [HouseFact|List],WorldStates):-
+    convert_to_blocks_world(InitialStates, List, ResList_2),
+    findall(WorldFact,   convert_block(HouseFact ,InitialStates, WorldFact),  NewFactsList),
+    append(NewFactsList, ResList_2, WorldStates).
+
+convert_block( cell(_X, 1, Block), _StatesList, ontable(Block)).
+
+convert_block(    cage(Block), _StatesList, holding(Block)).
+
+convert_block(cell(X, Z, Block), StatesList,    clear(Block)):-
+    Zupper is Z+1,
+    \+member(cell(X, Zupper, _), StatesList).
+
+convert_block(cell(X, Z, Block_up), StatesList,    on(Block_up, Block_down)):-
+    Zdown is Z-1,
+    member(cell(X, Zdown, Block_down), StatesList).
+

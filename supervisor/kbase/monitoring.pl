@@ -1,11 +1,26 @@
+:-ensure_loaded('RTXengine/RTXutil.pl').
+:-ensure_loaded('RTXengine/RTXengine.pl').
 
+
+:-dynamic x_before/1.
 
 /*
-problemas, sintomas, soluções
+monitoring:-
+    x_is_at(X),
+    \+ x_before(X),
+    assert_once(x_before(X)).
 
+monitoring:-
+    \+ x_is_at(_),
+    x_before(X),
+    x_moving(1),
+    X_between is X-0.5,
+    assert_once(x_is_near(X_between)).
 
-
-https://www.codepoc.io/blog/prolog/5060/prolog-program-of-medical-diagnosis-system-of-childhood-decease
-doencas, sintomas, hipoteses
-
+monitoring:-
+    \+ x_is_at(_),
+    x_before(X),
+    x_moving(-1),
+    X_between is X-0.5,
+    assert_once(x_is_near(X_between)).
 */

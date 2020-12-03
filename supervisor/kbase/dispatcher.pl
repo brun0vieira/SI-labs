@@ -1,6 +1,8 @@
 :-ensure_loaded('RTXengine/RTXengine.pl').
 :-ensure_loaded('RTXengine/RTXutil.pl').
 
+:-dynamic do_next/0.
+
 defrule gotox_right
     if goto_x(Xf) and x_is_at(Xi) and (Xi<Xf) and x_moving(0)
     then [
@@ -200,7 +202,6 @@ defrule actions_into_monitoring_goals
 defrule x_position_estimation
      if x_is_at(X) and x_moving(Mov) and (Mov\==0)
      then[
-
         X_near is X+0.5*Mov,
         assert_once(x_is_near(X_near)),
         assert_once(x_before(X))
@@ -249,3 +250,49 @@ defrule diagnose_failures_rule
          writeln(Failure)
       ].
 
+% Blocks world
+
+defrule pickup
+     if pickup(Block) and cell(X,Z,Block)
+     then [
+         retract(pickup(Block)),
+         new_id(ID),
+         Seq = [
+             (   do_next, retractall(do_next)),
+             (   true, assert(goto_xz(X,Z))),
+             (   (x_is_at(X),z_is_at(Z)), assert(take_from_cell(X,Z,Block))),
+             (   cage_has_part, assert(do_next))
+         ],
+         assert(sequence(ID,pickup_seq,Seq))
+     ].
+
+defrule putdown
+     if putdown(Block) and not(cell(X,Z,_))
+     then [
+         retract(putdown(Block)),
+         new_id(ID),
+         Seq = [
+             (   do_next, retractall(do_next)),
+             (   true, assert(goto_xz(X,Z))),
+             (   (x_is_at(X),z_is_at(Z)), put_in_cell(X,Z,Block)),
+             (   not(cage_has_part), assert(do_next))
+         ],
+         assert(sequence(ID,putdown_seq,Seq))
+     ].
+
+defrule stack(A,B)
+     if cell(B,X,Z) and holding(A)
+     then [
+         new_id(ID),
+         Z2 is Z+1,
+         Seq = [
+             (   do_next, retractall(do_next)),
+             (   true, assert(goto_xz(X,Z2))),
+             (   (x_is_at(X),z_is_at(Z)), assert(put_in_cell(X,Z2,A))),
+             (   not(cage_has_part), assert(do_next))
+
+         ],
+         assert(sequence(ID,stack_seq,Seq))
+     ].
+
+% acabar
