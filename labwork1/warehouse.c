@@ -422,7 +422,6 @@ void randomPosition()
 
 	gotoX(rand() % 10 + 1);
 	gotoZ(rand() % 5 + 1);
-	gotoY(rand() % 2 + 1);
 }
 
 void stopAll()

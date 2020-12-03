@@ -24,25 +24,36 @@ act goto_xz(Xf, Zf)
        add [x_is_at(Xf), z_is_at(Zf)]
        del [x_is_at(Xi), z_is_at(Zi)]
        endcond [x_is_at(Xf),z_is_at(Zf)].
-
+/*
 act pick_part_left_station(Block)
       pre [x_is_at(1),z_is_at(1),not(cell(_,_,Block)),not(cage(_))]
       add [cage(Block)]
       del []
       endcond [cage_has_part,y_is_at(2),is_at_z_down].
-
+*/
 act give_part_right_station(Block)
-      pre [x_is_at(10),z_is_at(1),cage(Block),not(is_part_at_right)]
+      pre [x_is_at(10),z_is_at(1),cage(Block),not(is_part_at_right_station)]
       add [give_right_station(Block)]
       del [cage(Block)]
       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
 
 act give_part_left_station(Block)
-      pre [x_is_at(1),z_is_at(1),cage(Block), not(is_part_at_left)]
+      pre [x_is_at(1),z_is_at(1),cage(Block), not(is_part_at_left_station)]
       add [give_left_station(Block)]
       del [cage(Block)]
       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
 
+act pick_closest_part(Block)
+      pre [not(cell(_,_,Block)),not(cage(_))]
+      add [cage(Block)]
+      del []
+      endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
+
+act put_in_cell(X,Z,Block)
+      pre []
+      add []
+      del []
+      endcond [].
 
 /*
 

@@ -96,11 +96,8 @@
                 $("#right-station-stop").click(function(){
                     ajax_get_request("/right-station-stop", {"cmd": "right-station-move-stop"});
                 });
-                $("#add-part-left").click(function(){
-                    ajax_get_request("/add-part-left-station", {"cmd": "add-part-left-station"});
-                });
-                $("#add-part-right").click(function(){
-                    ajax_get_request("/add-part-right-station", {"cmd": "add-part-right-station"});
+                $("#random-position").click(function(){
+                    ajax_get_request("/go-to-random-position", {"cmd": "go-to-random-position"});
                 });
                 
                 $("#getInitialStatesButton").click(function() {
@@ -267,8 +264,7 @@
                                         <td><button id="z-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Stop</button></td>
                                     </tr>
                                     <tr>
-                                        <td><button id="add-part-left" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Add part left station</button></td>
-                                        <td><button id="add-part-right" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Add part right station</button></td>
+                                        <td><button id="random-position" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Go to random position</button></td>
                                     </tr>
                                 </tbody>
                             </table>

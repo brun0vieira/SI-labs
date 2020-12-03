@@ -75,7 +75,7 @@ defrule goto_xz
         retract(goto_xz(X,Z))
     ].
 
-
+/*
 defrule pick_part_left
      if pick_part_left_station(Block)
      then [
@@ -94,7 +94,7 @@ defrule pick_part_left
          assert(sequence(ID,pick_part_left_seq,Seq)),
          retract_safe(pick_part_left_station(Block))
      ].
-
+*/
 defrule give_part_right
      if give_part_right_station(Block) and cage_has_part
      then [
@@ -106,8 +106,6 @@ defrule give_part_right
              (   (is_at_z_up,z_moving(0)), assert(goto_y(1))),
              (   y_is_at(1), assert(action(move_z_down))),
              (   is_at_z_down, assert(action(stop_z))),
-             (   true, assert(action(move_right_station_outside))),
-             (   not(is_part_at_right_station), assert(action(stop_right_station))),
              (   (is_at_z_down,z_moving(0)), assert(goto_y(2)))
          ],
          assert(sequence(ID,give_part_right_seq,Seq)),
@@ -125,54 +123,61 @@ defrule give_part_left
              (   (is_at_z_up,z_moving(0)), assert(goto_y(1))),
              (   y_is_at(1), assert(action(move_z_down))),
              (   is_at_z_down, assert(action(stop_z))),
-             (   true, assert(action(move_right_station_outside))),
-             (   not(is_part_at_right_station), assert(action(stop_right_station))),
              (   (is_at_z_down,z_moving(0)), assert(goto_y(2)))
          ],
          assert(sequence(ID,give_part_left_seq,Seq)),
          retract_safe(give_part_left_station(Block))
      ].
 
-
-/*
-
-
 defrule pick_part_left
-       if pick_part_left_station(Block)
-       then [
-           new_id(ID),
-           Seq = [
-               (   true, assert(goto_xz(1,1))),
-               (   (x_is_at(1),z_is_at(1)), assert(action(move_left_station_inside))),
-               (   is_part_at_left_station, assert(action(stop_left_station))),
-               (   true, assert(goto_y(1))),
-               (   y_is_at(1), assert(action(move_z_up))),
-               (   is_at_z_up, assert(action(stop_z))),
-               (   (is_at_z_up, z_moving(0)), assert(goto_y(2))),
-               (   y_is_at(2), assert(action(move_z_down))),
-               (   is_at_z_down, assert(action(stop_z)))
-           ],
-           assert(sequence(ID, pick_part_left_seq, Seq)),
-           retract_safe(pick_part_left_station(Block))
-       ].
+     if pick_closest_part(Block) and x_is_at(X) and (X=<5)
+     then [
+         new_id(ID),
+         Seq = [
+             (   true, assert(goto_xz(1,1))),
+             (   (x_is_at(1),z_is_at(1)), assert(action(move_left_station_inside))),
+             (   is_part_at_left_station, assert(action(stop_left_station))),
+             (   true, assert(goto_y(1))),
+             (   y_is_at(1), assert(action(move_z_up))),
+             (   is_at_z_up, assert(action(stop_z))),
+             (   (is_at_z_up,z_moving(0)), assert(goto_y(2))),
+             (   y_is_at(2), assert(action(move_z_down))),
+             (   is_at_z_down, assert(action(stop_z)))
+         ],
+         assert(sequence(ID,pick_part_left_seq,Seq)),
+         retract_safe(pick_closest_part(Block))
+     ].
 
 defrule pick_part_right
-       if pick_part_right_station(Block)
-       then [
-           new_id(ID),
-           Seq = [
-               (   true, assert(goto_xz(10,1))),
-               (   (x_is_at(10),z_is_at(1)), assert(action(move_right_station_inside))),
-               (   is_part_at_right_station, assert(action(stop_right_station))),
-               (   true, assert(goto_y(1))),
-               (   y_is_at(1), assert(action(move_z_up))),
-               (   is_at_z_up, assert(action(stop_z))),
-               (   (is_at_z_up, z_moving(0)), assert(goto_y(2))),
-               (   y_is_at(2), assert(action(move_z_down))),
-               (   is_at_z_down, assert(action(stop_z)))
-           ],
-           assert(sequence(ID, pick_part_right_seq, Seq)),
-           retract_safe(pick_part_right_station(Block))
+     if pick_closest_part(Block) and x_is_at(X) and (X>5)
+     then [
+         new_id(ID),
+         Seq = [
+             (   true, assert(goto_xz(10,1))),
+             (   (x_is_at(10),z_is_at(1)), assert(action(move_right_station_inside))),
+             (   is_part_at_right_station, assert(action(stop_right_station))),
+             (   true, assert(goto_y(1))),
+             (   y_is_at(1), assert(action(move_z_up))),
+             (   is_at_z_up, assert(action(stop_z))),
+             (   (is_at_z_up,z_moving(0)), assert(goto_y(2))),
+             (   y_is_at(2), assert(action(move_z_down))),
+             (   is_at_z_down, assert(action(stop_z)))
+         ],
+         assert(sequence(ID,pick_part_right_seq,Seq)),
+         retract_safe(pick_closest_part(Block))
+     ].
+
+defrule put_part_in_cell
+     if put_in_cell(X,Z,Block)
+     then [
+     ].
+
+     /*
+      *
+      *
+
+
+
        ].
 
 defrule store_pallete
