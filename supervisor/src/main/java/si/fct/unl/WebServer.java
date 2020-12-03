@@ -21,7 +21,6 @@ public class WebServer {
         On.port(8082);
         On.get("/").html((req, resp) -> "Hello again!");     
         
-        
         My.errorHandler((req, resp, error) -> {
             return resp.code(200).result("Error " + error.getMessage());
         });

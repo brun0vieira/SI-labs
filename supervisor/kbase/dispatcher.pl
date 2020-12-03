@@ -75,26 +75,6 @@ defrule goto_xz
         retract(goto_xz(X,Z))
     ].
 
-/*
-defrule pick_part_left
-     if pick_part_left_station(Block)
-     then [
-         new_id(ID),
-         Seq = [
-             (   true, assert(goto_xz(1,1))),
-             (   (x_is_at(1),z_is_at(1)), assert(action(move_left_station_inside))),
-             (   is_part_at_left_station, assert(action(stop_left_station))),
-             (   true, assert(goto_y(1))),
-             (   y_is_at(1), assert(action(move_z_up))),
-             (   is_at_z_up, assert(action(stop_z))),
-             (   (is_at_z_up,z_moving(0)), assert(goto_y(2))),
-             (   y_is_at(2), assert(action(move_z_down))),
-             (   is_at_z_down, assert(action(stop_z)))
-         ],
-         assert(sequence(ID,pick_part_left_seq,Seq)),
-         retract_safe(pick_part_left_station(Block))
-     ].
-*/
 defrule give_part_right
      if give_part_right_station(Block) and cage_has_part
      then [
@@ -180,66 +160,41 @@ defrule put_part_in_cell
              (   is_at_z_down, assert(action(stop_z))),
              (   (is_at_z_down,z_moving(0)), assert(goto_y(2)))
          ],
-         assert(sequence(ID,put_part_in_cell,Seq)),
+         assert(sequence(ID,put_part_in_cell_seq,Seq)),
          retract_safe(put_in_cell(X,Z,Block))
      ].
 
 
-     /*
-      *
-      *
-       ].
+defrule take_part_from_cell
+     if take_from_cell(X,Z,Block) %and not(cage_has_part)
+     then [
+         new_id(ID),
+         Seq = [
+             (   true, assert(goto_xz(X,Z))),
+             (   (x_is_at(X),z_is_at(Z)), assert(goto_y(3))),
+             (   y_is_at(3), assert(action(move_z_up))),
+             (   is_at_z_up, assert(action(stop_z))),
+             (   (is_at_z_up,z_moving(0)), assert(goto_y(2))),
+             (   y_is_at(2), assert(action(move_z_down))),
+             (   is_at_z_down, assert(action(stop_z)))
+         ],
+         assert(sequence(ID,take_part_from_cell_seq,Seq)),
+         retract_safe(take_from_cell(X,Z,Block))
+     ].
 
-defrule store_pallete
-       if put_in_cell(X,Z,Block) %and cage_has_part
-       then [
-           new_id(ID),
-           Seq = [
-               (   true, assert(goto_xz(X,Z))),
-               (   (x_is_at(X), z_is_at(Z), z_moving(0), x_moving(0)), assert(action(move_z_up))),
-               (   is_at_z_up, assert(action(stop_z))),
-               (   (is_at_z_up,z_moving(0)), assert(goto_y(3))),
-               (   y_is_at(3), assert(action(move_z_down))),
-               (   is_at_z_down, assert(action(stop_z))),
-               (   (is_at_z_down, z_moving(0)), assert(goto_y(2)))
-           ],
-           assert(sequence(ID,store_pallet_seq,Seq)),
-           retract(put_in_cell(X,Z,Block))
-       ].
-
-defrule pick_pallete
-       if take_from_cell(X,Z,Block) %and not(cage_has_part)
-       then [
-           new_id(ID),
-           Seq = [
-               (   true, assert(goto_xz(X,Z))),
-               (   (x_is_at(X), z_is_at(Z), is_at_z_down), assert(goto_y(3))),
-               (   y_is_at(3), assert(action(move_z_up))),
-               (   is_at_z_up, assert(action(stop_z))),
-               (   (is_at_z_up, z_moving(0)), assert(goto_y(2))),
-               (   y_is_at(2), assert(action(move_z_down))),
-               (   is_at_z_down, assert(action(stop_z)))
-          ],
-          assert(sequence(ID,pick_pallete_seq(Seq))),
-          retract(take_from_cell(X,Z,Block))
-       ].
-
-
-*/
 defrule actions_into_monitoring_goals
-if true
-then [
-
-    findall(
-        _IgnoredFact,
-        (
-            action(Action),
-            retractall(goal(action(Action))),
-            assert(goal(action(Action)))
-        ),
-        _IgnoredList
-    )
-].
+     if true
+     then [
+            findall(
+               _IgnoredFact,
+               (
+                   action(Action),
+                   retractall(goal(action(Action))),
+                   assert(goal(action(Action)))
+                ),
+               _IgnoredList
+            )
+     ].
 
 
 defrule x_position_estimation
@@ -262,19 +217,19 @@ defrule time_of_event_x_is_at
 
 %test if actuador xx is moving past x=10
 defrule beyond_last_sensor_error
-if goal(action(move_x_right))
-               and not(failure(x10_failure, ,, _, _))    %avoid avalancche of failure facts
-               and not(x_is_at(_))
-               and x_is_near(X)
-               and (X>10)
-               and x_moving(1)
-               then [           %adjust the time aqccording to the simulator speed
-   get_warehouse_states(States),
-   findall( goal(G), goal(G), Goals),
-   get_time(Time_now),
-   assert(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))/*,
-   writeq(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))*/
-].
+     if goal(action(move_x_right))
+          and not(failure(x10_failure, ,, _, _))    %avoid avalancche of failure facts
+          and not(x_is_at(_))
+          and x_is_near(X)
+          and (X>10)
+          and x_moving(1)
+     then [           %adjust the time aqccording to the simulator speed
+          get_warehouse_states(States),
+          findall( goal(G), goal(G), Goals),
+          get_time(Time_now),
+          assert(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))/*,
+          writeq(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))*/
+     ].
 
 %test if xx=5, goto_x(1) and missing sensor xx=2
 %defrule missing_sensor_x_2
@@ -283,12 +238,14 @@ if goal(action(move_x_right))
 % SPECIFY ALL THE OTHER RULES HERE
 
 defrule diagnose_failures_rule
-if failure(Type, TimeStamp, Description, States, Goals) then[
-   Failure = failure(Type, TimeStamp, Description, States, Goals),                   findall( _Ignore1 ,                                                                         diag(Failure), % <-- CALLING DIAGNOSIS
+     if failure(Type, TimeStamp, Description, States, Goals)
+     then[
+         Failure = failure(Type, TimeStamp, Description, States, Goals),
+         findall( _Ignore1 ,                                                                         diag(Failure), % <-- CALLING DIAGNOSIS
             _Ignore2),
-   retract(Failure),
-   % save the failure to be shown in the html UI-console(NEXT CLASS)
-   assert(failures_to_json(Failure)),
-   writeln(Failure)
-].
+         retract(Failure),
+         % save the failure to be shown in the html UI-console(NEXT CLASS)
+         assert(failures_to_json(Failure)),
+         writeln(Failure)
+      ].
 
