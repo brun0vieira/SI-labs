@@ -11,6 +11,8 @@
 :- http_handler(root(query_read_failures), query_read_failures  , []).
 :- http_handler(root(query_recover_failures), query_recover_failures  , []).
 
+:- http_handler(root(query_convert), query_convert, []).
+
 
 
 :-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros m�dulos
@@ -76,7 +78,6 @@ execute_remote_query(Request):-
         execute_query(List, Result),
         nl,
         writeln(Result).
-
 
 
 
@@ -154,6 +155,18 @@ query_generate_plan(Request):-
 	format('Content-type: text/plain~n~n',[]),
 	writeq(OriginatedPlan).
 
+query_convert(Request):-
+	current_output(Curr),
+	set_output(user_output),
+	member(search(List),Request),
+	member(sf=StatesGoal,List),
+	term_string(Sf,StatesGoal),
+	convert_to_blocks_world(Sf,Result),
+	set_output(Curr),
+	format('Content-type: text/plain~n~n',[]),
+	writeq(Result).
+
+
 query_execute_plan(Request):-
 	current_output(Curr),
 	set_output(user_output),
@@ -170,6 +183,7 @@ query_execute_plan(Request):-
 	set_output(Curr),
 	format('Content-type: text/plain~n~n',[]),
 	writeq(sequence(ID)).
+
 
 
 assert_goal(Goal):-
@@ -222,4 +236,5 @@ convert_block(cell(X, Z, Block), StatesList,    clear(Block)):-
 convert_block(cell(X, Z, Block_up), StatesList,    on(Block_up, Block_down)):-
     Zdown is Z-1,
     member(cell(X, Zdown, Block_down), StatesList).
+
 

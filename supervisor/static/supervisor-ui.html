@@ -107,13 +107,16 @@
                    });
                 });
                 
-                
                 $("#convertBlocksWorld").click(function() {
-                    $('#plannerInicialStateText').val('Continuar o blocks world...');
+                    sf=$("#plannerGoalsText").val(); // goal from normal world
+                    
+                    // we must convert it to blocks world goal and then we can generate&execute the plan
+                    ajax_get_request("/query_convert", {"sf":sf}, function(result) {
+                        console.log("converted_plan="+result.trim());
+                        $('#plannerGoalsText').val(result.trim());
+                    });
                 });
-                        
-                        
-                
+ 
                 $("#generatePlanButton").click(function() {
                     si=$("#plannerInicialStateText").val(); // initial state
                     sf=$("#plannerGoalsText").val(); // goals state
