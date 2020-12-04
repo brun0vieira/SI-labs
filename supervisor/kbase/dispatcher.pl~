@@ -207,6 +207,23 @@ defrule x_position_estimation
         assert_once(x_before(X))
      ].
 
+defrule z_position_estimation
+     if z_is_at(Z) and z_moving(Mov) and (Mov\==0)
+     then[
+        Z_near is Z+0.5*Mov,
+        assert_once(z_is_near(Z_near)),
+        assert_once(z_before(Z))
+     ].
+
+defrule y_position_estimation
+     if y_is_at(Y) and y_moving(Mov) and (Mov\==0)
+     then[
+        Y_near is Y+0.5*Mov,
+        assert_once(y_is_near(Y_near)),
+        assert_once(y_before(Y))
+     ].
+
+
 defrule time_of_event_x_is_at
      if x_is_at(X) and not(time(x_is_at(_), _))
      then [
@@ -217,7 +234,7 @@ defrule time_of_event_x_is_at
      ].
 
 %test if actuador xx is moving past x=10
-defrule beyond_last_sensor_error
+defrule beyond_last_sensor_error_x
      if goal(action(move_x_right))
           and not(failure(x10_failure, ,, _, _))    %avoid avalancche of failure facts
           and not(x_is_at(_))
@@ -228,15 +245,92 @@ defrule beyond_last_sensor_error
           get_warehouse_states(States),
           findall( goal(G), goal(G), Goals),
           get_time(Time_now),
-          assert(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))/*,
-          writeq(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))*/
+          assert(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))
+          %,writeq(failure(x10_failure, Time_now, 'Moving beyond x=10', States, Goals))
      ].
 
-%test if xx=5, goto_x(1) and missing sensor xx=2
-%defrule missing_sensor_x_2
-%if(goal()
-
 % SPECIFY ALL THE OTHER RULES HERE
+
+%test if actuator xx is moving past x=1
+defrule beyond_first_sensor_error_x
+     if goal(action(move_x_left))
+        and not(failure(x1_failure, , ,_,_))
+        and not(x_is_at(_))
+        and x_is_near(X)
+        and (X<1)
+        and x_moving(-1) % x_moving(X), X equals -1 if it's moving to the left
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(x1_failure,Time_now,'Moving beyond x=1',States,Goals))
+         %,writeq(failure(x1_failure,Time_now,'Moving beyond x=1',States,Goals))
+     ].
+
+%test if actuator zz is moving past x=5
+defrule beyond_last_sensor_error_z
+     if goal(action(move_z_up))
+         and not(failure(z5_failure, , ,_,_))
+         and not(z_is_at(_))
+         and z_is_near(Z)
+         and (Z>5)
+         and z_moving(1)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(z5_failure,Time_now,'Moving beyond z=5',States,Goals))
+         %,writeq(failure(z5_failure,Time_now,'Moving beyond z=5',States,Goals))
+     ].
+
+%test if actuator zz is moving past z=1
+defrule beyond_first_sensor_error_z
+     if goal(action(move_z_down))
+         and not(failure(z1_failure, , ,_,_))
+         and not(z_is_at(_))
+         and z_is_near(Z)
+         and (Z<1)
+         and z_moving(-1)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(z1_failure,Time_now,'Moving beyond z=1',States,Goals))
+         %,writeq(failure(z1_failure,Time_now,'Moving beyond z=1',States,Goals))
+     ].
+
+%test if actuator yy is moving past y=3
+defrule beyond_last_sensor_error_y
+     if goal(action(move_y_inside))
+         and not(failure(y3_failure, , ,_,_))
+         and not(y_is_at(_))
+         and y_is_near(Y)
+         and (Y>3)
+         and y_moving(1)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(y3_failure,Time_now,'Moving beyond y=3',States,Goals))
+         %,writeq(failure(y3_failure,Time_now,'Moving beyond y=3',States,Goals))
+     ].
+
+%test if actuator yy is moving past y=1
+defrule beyond_first_sensor_error_y
+     if goal(action(move_y_outside))
+         and not(failure(y1_failure, , ,_,_))
+         and not(y_is_at(_))
+         and y_is_near(Y)
+         and (Y<1)
+         and y_moving(-1)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(y1_failure,Time_now,'Moving beyond y=1',States,Goals))
+         %,writeq(failure(y1_failure,Time_now,'Moving beyond y=1',States,Goals))
+     ].
+
 
 defrule diagnose_failures_rule
      if failure(Type, TimeStamp, Description, States, Goals)
@@ -295,3 +389,18 @@ defrule stack(A,B)
          assert(sequence(ID,stack_seq,Seq))
      ].
 
+% falta testar unstack
+defrule unstack(A,B)
+    if cell(B,X,Z) and not(holding(_))
+    then [
+        new_id(ID),
+        Z2 is Z-1,
+        Seq = [
+            (   do_next, retractall(do_next)),
+            (   true, assert(goto_xz(X,Z2))),
+            (   (x_is_at(X),z_is_at(Z)), assert(take_from_cell(X,Z2,A))),
+            (   not(cage_has_part), assert(do_next))
+        ],
+        assert(sequence(ID,unstack_seq,Seq))
+
+    ].

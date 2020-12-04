@@ -91,10 +91,10 @@ int getXMoving()
 {
 	uInt8 port = readDigitalU8(4); 
 
-	if (getBitValue(port, 0)) // returns 0 se está a mover para a direita
+	if (getBitValue(port, 0)) // returns 1 se está a mover para a direita
 		return 1;//return 0;
-	else if (getBitValue(port, 1)) // returns 1 se está a mover para a esquerda
-		return 1;
+	else if (getBitValue(port, 1)) // returns -1 se está a mover para a esquerda
+		return (-1);
 	else
 		return 0;//return (-1);
 	
@@ -104,10 +104,10 @@ int getYMoving()
 {
 	uInt8 port = readDigitalU8(4);
 
-	if (getBitValue(port, 4)) // returns 0 se está a mover para dentro
+	if (getBitValue(port, 4)) // returns 1 se está a mover para dentro
 		return 1;//return 0;
-	else if (getBitValue(port, 3)) // returns 1 se está a mover para fora
-		return 1;
+	else if (getBitValue(port, 3)) // returns -1 se está a mover para fora
+		return (-1);
 	else
 		return 0;//return (-1);
 }
@@ -116,10 +116,10 @@ int getZMoving()
 {
 	uInt8 port = readDigitalU8(4);
 
-	if (getBitValue(port, 5)) // returns 0 se está a mover para cima
+	if (getBitValue(port, 5)) // returns 1 se está a mover para cima
 		return 1;//return 0;
-	else if (getBitValue(port, 6)) // returns 1 se está a mover para baixo
-		return 1;
+	else if (getBitValue(port, 6)) // returns -1 se está a mover para baixo
+		return (-1);
 	else
 		return 0;//return (-1);
 }
@@ -129,10 +129,10 @@ int getLeftStationMoving()
 	uInt8 port_in = readDigitalU8(4);
 	uInt8 port_out = readDigitalU8(5);
 
-	if (getBitValue(port_in, 7)) // returns 0 se está a mover para dentro
+	if (getBitValue(port_in, 7)) // returns 1 se está a mover para dentro
 		return 1;//return 0;
-	else if (getBitValue(port_out, 0)) // returns 1 se está a mover para fora
-		return 1;
+	else if (getBitValue(port_out, 0)) // returns -1 se está a mover para fora
+		return (-1);
 	else
 		return 0;//return (-1);
 }
@@ -141,10 +141,10 @@ int getRightStationMoving() {
 	
 	uInt8 port = readDigitalU8(5);
 
-	if (getBitValue(port, 1)) // returns 0 se está a mover para dentro
+	if (getBitValue(port, 1)) // returns 1 se está a mover para dentro
 		return 1;//return 0;
-	else if (getBitValue(port, 2)) // returns 1 se está a mover para fora
-		return 1;
+	else if (getBitValue(port, 2)) // returns -1 se está a mover para fora
+		return (-1);
 	else
 		return 0;//return (-1);
 }
