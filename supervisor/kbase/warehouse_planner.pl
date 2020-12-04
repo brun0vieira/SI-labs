@@ -82,4 +82,3 @@ act putdown(X)
       add [ontable(X), clear(X), handempty]
       del [holding(X)]
       endcond [do_next].
-

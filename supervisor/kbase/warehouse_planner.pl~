@@ -56,31 +56,3 @@ act take_from_cell(X,Z,Block)
       del [cell(X,Z,Block)]
       endcond [cage_has_part,y_is_at(2),is_at_z_down].
 
-
-% Blocks world
-
-act stack(X,Y)
-      pre [clear(Y),holding(X)]
-      add [on(X,Y),clear(X),handempty]
-      del [clear(Y),holding(X)]
-      endcond [do_next].
-
-act unstack(X,Y)
-      pre [on(X,Y),clear(X),handempty]
-      add [clear(Y),holding(X)]
-      del [on(X,Y),clear(X),handempty]
-      endcond [do_next].
-
-act pickup(X)
-      pre [ontable(X), clear(X), handempty]
-      add [holding(X)]
-      del [ontable(X), clear(X), handempty]
-      endcond [do_next].
-
-act putdown(X)
-      pre [holding(X)]
-      add [ontable(X), clear(X), handempty]
-      del [holding(X)]
-      endcond [do_next].
-
-% acabar

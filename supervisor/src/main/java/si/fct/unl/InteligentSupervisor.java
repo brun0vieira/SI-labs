@@ -149,10 +149,20 @@ public class InteligentSupervisor extends Thread{
             return req; 
         });
         
-        On.get("/go-to-random-position").serve(req ->
+        On.get("/go-to-initial-position").serve(req ->
         {        
-            if(warehouse.getYPosition() == 2)
-                warehouse.randomPosition();
+            if(warehouse.getYPosition() == 2) {
+             
+                while(warehouse.getXPosition() != 1)
+                    warehouse.moveXRight();
+                warehouse.stopX();
+                
+                while(warehouse.getZPosition() != 1)
+                    warehouse.moveZDown();
+                warehouse.stopZ();
+                
+            }
+            
             req.response().plain("OK");
             return req;
         });

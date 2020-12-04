@@ -1,3 +1,4 @@
+
 diag(failure(x10_failure, _TimeStamp, _Description, _States, _Goals)):-
     Sequence=[
         (    true,         assert(action(move_x_left))  ),
@@ -27,22 +28,50 @@ diag(failure(z1_failure, _TimeStamp, _Description, _States, _Goals)):-
 
 diag(failure(z5_failure, _TimeStamp, _Description, _States, _Goals)):-
     Sequence=[
-        (   true, assert(action(move_zdown))),
+        (   true, assert(action(move_z_down))),
         (   z_is_at(_), assert(action(stop_z)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_z_5,Sequence)),
     assert(plan_to_json(Sequence)).
 
-%diag(failure(y1_failure, _TimeStamp, _Descr
+diag(failure(y1_failure, _TimeStamp, _Description, _States, _Goals)):-
+    Sequence=[
+        (   true, assert(action(move_y_inside))),
+        (   y_is_at(_), assert(action(stop_y)))
+    ],
+    new_id(ID),
+    assert(sequence(ID,recovery_y_1,Sequence)),
+    assert(plan_to_json(Sequence)).
+
+diag(failure(y3_failure, _TimeStamp, _Description, _States, _Goals)):-
+    Sequence=[
+        (   true, assert(action(move_y_outside))),
+        (   y_is_at(_), assert(action(stop_y)))
+    ],
+    new_id(ID),
+    assert(sequence(ID,recovery_y_3,Sequence)),
+    assert(plan_to_json(Sequence)).
+
+/*
+save_management_states:-
+    tell('management_states.pl'),
+
+    %listing(),
+
+    told.
+*/
 
 
-recover_failure:-
-    % dummy recovery, use if it suits you
-    write('recovering a failure'),
-    retract(failures_to_json(_)),
-    !.
 
-% other recovery failures here...
 
-recover_failure. % this should be the last one
+
+
+
+
+
+
+
+
+
+

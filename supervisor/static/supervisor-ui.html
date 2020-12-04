@@ -50,7 +50,6 @@
                     ajax_get_request("/query_recover_failures", {"cmd": "xpto"});
                 });
 
-            
                 $("#x-left").click(function () {
                     ajax_get_request("/x-move-left", {"cmd": "x-move-left"});
                 });
@@ -96,8 +95,9 @@
                 $("#right-station-stop").click(function(){
                     ajax_get_request("/right-station-stop", {"cmd": "right-station-move-stop"});
                 });
-                $("#random-position").click(function(){
-                    ajax_get_request("/go-to-random-position", {"cmd": "go-to-random-position"});
+                $("#initial-position").click(function(){
+                    $('#initial-position').fadeOut(500);
+                    ajax_get_request("/go-to-initial-position", {"cmd": "go-to-initial-position"});
                 });
                 
                 $("#getInitialStatesButton").click(function() {
@@ -210,8 +210,7 @@
                     }
             , 100);
 
-            
-            
+           
         </script>
         <style>
             iframe{
@@ -239,7 +238,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="row">
                 <div class="col-sm-12 ">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertDiv">
@@ -274,7 +272,7 @@
                                         <td><button id="z-stop" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">z-Stop</button></td>
                                     </tr>
                                     <tr>
-                                        <td><button id="random-position" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Go to random position</button></td>
+                                        <td><button id="initial-position" type="button" class="btn btn-warning btn-sm btn-outline-primary py-0">Go to initial position (1,1)</button></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -18,6 +18,8 @@
 :-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros m�dulos
 :-include('monitoring.pl').
 :-include('diagnosis.pl').
+:-include('management_states.pl').
+:-include('recovery.pl').
 
 :-dynamic res_sult/1.
 :-dynamic action/1.
@@ -78,8 +80,6 @@ execute_remote_query(Request):-
         execute_query(List, Result),
         nl,
         writeln(Result).
-
-
 
 query_dispatcher_json(_Request):-
 	current_output(Curr),
@@ -166,7 +166,6 @@ query_convert(Request):-
 	format('Content-type: text/plain~n~n',[]),
 	writeq(Result).
 
-
 query_execute_plan(Request):-
 	current_output(Curr),
 	set_output(user_output),
@@ -184,8 +183,6 @@ query_execute_plan(Request):-
 	format('Content-type: text/plain~n~n',[]),
 	writeq(sequence(ID)).
 
-
-
 assert_goal(Goal):-
 	assert(Goal),
 	assert(goal(Goal)).
@@ -202,7 +199,6 @@ query_read_failures(_Request):-
         format('Content-type: text/plain~n~n',[]),
         writeq(Failure),
 	!. % show one failure at the time
-
 
 query_recover_failures(_Request):-
 	current_output(Curr),
