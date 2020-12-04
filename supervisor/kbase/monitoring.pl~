@@ -166,7 +166,7 @@ defrule diagnose_failures_rule
       ].
 
 save_management_states:-
-    tell('management_states.pl'),
+    tell('kbase/management_states.pl'),
     listing(x_before),
     listing(x_is_near),
     listing(y_before),

@@ -18,7 +18,7 @@
 :-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros m�dulos
 :-include('monitoring.pl').
 :-include('diagnosis.pl').
-:-include('management_states.pl').
+/*:-include('management_states.pl').*/
 :-include('recovery.pl').
 
 :-dynamic res_sult/1.

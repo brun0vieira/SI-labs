@@ -166,7 +166,7 @@ defrule put_part_in_cell
          retract_safe(put_in_cell(X,Z,Block))
      ].
 
-
+/*
 defrule take_part_from_cell
      if take_from_cell(X,Z,Block) %and not(cage_has_part)
      then [
@@ -183,7 +183,7 @@ defrule take_part_from_cell
          assert(sequence(ID,take_part_from_cell_seq,Seq)),
          retract_safe(take_from_cell(X,Z,Block))
      ].
-
+*/
 defrule actions_into_monitoring_goals
      if true
      then [
@@ -199,7 +199,7 @@ defrule actions_into_monitoring_goals
      ].
 
 % Blocks world
-
+/*
 defrule pickup
      if pickup(Block) and cell(X,Z,Block)
      then [
@@ -257,7 +257,7 @@ defrule unstack(A,B)
         ],
         assert(sequence(ID,unstack_seq,Seq))
 
-    ].
+    ].*/
 /*
 defrule save_states
     if true then [ save_management_states ].

@@ -164,7 +164,7 @@ defrule diagnose_failures_rule
          assert(failures_to_json(Failure)),
          writeln(Failure)
       ].
-
+/*
 save_management_states:-
     tell('kbase/management_states.pl'),
     listing(x_before),
@@ -174,3 +174,4 @@ save_management_states:-
     listing(z_before),
     listing(z_is_near),
     told.
+*/
