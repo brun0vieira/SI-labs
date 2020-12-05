@@ -1,43 +1,51 @@
 
-diag(failure(x10_failure, _TimeStamp, _Description, _States, _Goals)):-
+diag(failure(x10_failure, TimeStamp, Description, States, Goals)):-
     Sequence=[
-        (    true,         assert(action(move_x_left))  ),
+        (    true, assert(action(stop_x))),
+        (    not(failures_to_json(failure(x10_failure,TimeStamp,Description,States,Goals))), assert(action(move_x_left))  ),
         (    x_is_at(_),   assert(action(stop_x))      )
     ],
     new_id(ID),
     assert(sequence(ID, recovery_x_10, Sequence)),
+    retract((failure(x10_failure, TimeStamp, Description, States, Goals))),
     assert(plan_to_json(Sequence)).
 
-
-diag(failure(x1_failure, _TimeStamp, _Description, _States, _Goals)):-
+diag(failure(x1_failure, TimeStamp, Description, States, Goals)):-
     Sequence=[
-        (   true, assert(action(move_x_right))),
+        (   true, assert(action(stop_x))),
+        (   not(failures_to_json(failure(x1_failure,TimeStamp,Description,States,Goals))), assert(action(move_x_right))),
         (   x_is_at(_), assert(action(stop_x)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_x_1,Sequence)),
+    retract((failure(x1_failure, TimeStamp, Description, States, Goals))),
     assert(plan_to_json(Sequence)).
 
-diag(failure(z1_failure, _TimeStamp, _Description, _States, _Goals)):-
+diag(failure(z1_failure, TimeStamp, Description, States, Goals)):-
     Sequence=[
-        (   true, assert(action(move_z_up))),
+        (   true, assert(action(stop_z))),
+        (   not(failures_to_json(failure(z1_failure,TimeStamp,Description,States,Goals))), assert(action(move_z_up))),
         (   z_is_at(_), assert(action(stop_z)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_z_1,Sequence)),
+    retract((failure(z1_failure, TimeStamp, Description, States, Goals))),
     assert(plan_to_json(Sequence)).
 
-diag(failure(z5_failure, _TimeStamp, _Description, _States, _Goals)):-
+diag(failure(z5_failure, TimeStamp, Description, States, Goals)):-
     Sequence=[
-        (   true, assert(action(move_z_down))),
+        (   true, assert(action(stop_z))),
+        (   not(failures_to_json(failure(z5_failure,TimeStamp,Description,States,Goals))), assert(action(move_z_down))),
         (   z_is_at(_), assert(action(stop_z)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_z_5,Sequence)),
+    retract((failure(z5_failure, TimeStamp, Description, States, Goals))),
     assert(plan_to_json(Sequence)).
 
 diag(failure(y1_failure, _TimeStamp, _Description, _States, _Goals)):-
     Sequence=[
+
         (   true, assert(action(move_y_inside))),
         (   y_is_at(_), assert(action(stop_y)))
     ],
@@ -54,32 +62,25 @@ diag(failure(y3_failure, _TimeStamp, _Description, _States, _Goals)):-
     assert(sequence(ID,recovery_y_3,Sequence)),
     assert(plan_to_json(Sequence)).
 
-diag(failure(no_part_station_failure, _TimeStamp, _Description, _States, _Goals)):-
+diag(failure(no_part_station_failure, TimeStamp, Description, States, Goals)):-
     Sequence=[
         (   true, assert(action(stop_z))),
-        (   z_moving(0), assert(action(move_y_inside))),
+        (   not(failures_to_json(failure(no_part_station_failure, TimeStamp, Description, States, Goals))), assert(action(move_y_inside))),
+        %(   z_moving(0), assert(action(move_y_inside))),
         (   y_is_at(2), assert(action(stop_y)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_no_part_station,Sequence)),
-
     retract(cage(_)),
+    retract((failure(no_part_station_failure, TimeStamp, Description, States, Goals))),
     assert(plan_to_json(Sequence)).
-
+/*
 diag(failure(empty_cage_failure, _TimeStamp, _Description, _States, _Goals)):-
     Sequence=[
-        (   true, assert(goto_y(1)))
+        (   true, assert(goto_xy(2,2)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_empty_cage,Sequence)),
     assert(plan_to_json(Sequence)).
-
-
-
-
-
-
-
-
-
+*/
 

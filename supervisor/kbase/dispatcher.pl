@@ -120,8 +120,8 @@ defrule pick_part_left
              (   (x_is_at(1),z_is_at(1)), assert(action(move_left_station_inside))),
              (   is_part_at_left_station, assert(action(stop_left_station))),
              (   true, assert(goto_y(1))),
-             (   y_is_at(1), assert(action(move_z_up))),
-             (   is_at_z_up, assert(action(stop_z))),
+             (   y_is_at(1), assert(action(move_z_up)), assert(monitoring_left_part(Block))),
+             (   is_at_z_up, assert(action(stop_z)),retract(monitoring_left_part(Block))),
              (   (is_at_z_up,z_moving(0)), assert(goto_y(2))),
              (   y_is_at(2), assert(action(move_z_down))),
              (   is_at_z_down, assert(action(stop_z)))
@@ -139,8 +139,8 @@ defrule pick_part_right
              (   (x_is_at(10),z_is_at(1)), assert(action(move_right_station_inside))),
              (   is_part_at_right_station, assert(action(stop_right_station))),
              (   true, assert(goto_y(1))),
-             (   y_is_at(1), assert(action(move_z_up))),
-             (   is_at_z_up, assert(action(stop_z))),
+             (   y_is_at(1), assert(action(move_z_up)), assert(monitoring_right_part(Block))),
+             (   is_at_z_up, assert(action(stop_z)),retract(monitoring_right_part(Block))),
              (   (is_at_z_up,z_moving(0)), assert(goto_y(2))),
              (   y_is_at(2), assert(action(move_z_down))),
              (   is_at_z_down, assert(action(stop_z)))
