@@ -76,13 +76,38 @@ diag(failure(no_part_station_failure, TimeStamp, Description, States, Goals)):-
     retract(cage(_)),
     retract((failure(no_part_station_failure, TimeStamp, Description, States, Goals))),
     assert(plan_to_json(Sequence)).
-/*
-diag(failure(empty_cage_failure, _TimeStamp, _Description, _States, _Goals)):-
+
+diag(failure(left_station_occupied_failure,TimeStamp,Description,States,Goals)):-
     Sequence=[
-        (   true, assert(goto_xy(2,2)))
+        (   true, assert(action(stop_z))),
+        (   not(failures_to_json(failure(left_station_occupied_failure, TimeStamp, Description, States, Goals))), write('\e[2J'), writeln('Human: please EJECT piece at left station!!'))
+    ],
+    new_id(ID),
+    assert(sequence(ID,recovery_lstation_occupied,Sequence)),
+    retract((failure(left_station_occupied_failure,TimeStamp,Description,States,Goals))),
+    assert(plan_to_json(Sequence)).
+
+diag(failure(right_station_occupied_failure,TimeStamp,Description,States,Goals)):-
+    Sequence=[
+        (   true, assert(action(stop_z))),
+        (   not(failures_to_json(failure(right_station_occupied_failure, TimeStamp, Description, States, Goals))), write('\e[2J'), writeln('Human: please EJECT piece at right station!!'))
+    ],
+    new_id(ID),
+    assert(sequence(ID,recovery_rstation_occupied,Sequence)),
+    retract((failure(right_station_occupied_failure,TimeStamp,Description,States,Goals))),
+    assert(plan_to_json(Sequence)).
+
+
+/*
+diag(failure(empty_cage_failure, TimeStamp, Description, States, Goals)):-
+    Sequence=[
+        (   true, assert(action(stop_z)) ),
+        (   not(failures_to_json(failure(empty_cage_failure, TimeStamp, Description, States, Goals))), assert(action(move_y_outside))),
+        (   y_is_at(1), assert(action(stop_y)))
     ],
     new_id(ID),
     assert(sequence(ID,recovery_empty_cage,Sequence)),
+    retractnot(failure(empty_cage_failure,TimeStamp, Description, States, Goals)),
     assert(plan_to_json(Sequence)).
 */
 

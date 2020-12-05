@@ -296,7 +296,7 @@ is_system_state(Fact):-
     % COMPLETE THIS LIST WITH ALL YOUR SENSOR FACTS
     member(Fact, [x_is_at(_),
                   y_is_at(_),
-                  z_is_a(_),
+                  z_is_at(_),
                   x_moving(_),
                   y_moving(_),
                   z_moving(_),

@@ -26,13 +26,13 @@ act goto_xz(Xf, Zf)
        endcond [x_is_at(Xf),z_is_at(Zf)].
 
 act give_part_right_station(Block)
-      pre [x_is_at(10),z_is_at(1),cage(Block),not(is_part_at_right_station)]
+      pre [x_is_at(10),z_is_at(1),cage(Block)/*,not(is_part_at_right_station)*/]
       add [give_right_station(Block)]
       del [cage(Block)]
       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
 
 act give_part_left_station(Block)
-      pre [x_is_at(1),z_is_at(1),cage(Block), not(is_part_at_left_station)]
+      pre [x_is_at(1),z_is_at(1),cage(Block)/*, not(is_part_at_left_station)*/]
       add [give_left_station(Block)]
       del [cage(Block)]
       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].

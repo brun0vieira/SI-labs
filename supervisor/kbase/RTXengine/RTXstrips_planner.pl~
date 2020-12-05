@@ -262,7 +262,7 @@ get_end_conditions(States, [Action|PlanList],[Condition|ConditionList]):-
     list_to_term(EndCond,Condition),
     get_end_conditions(States,PlanList,ConditionList).
 
-
+/*
 create_sequence(_,[],_,[]).
 
 create_sequence(States,[Action|ActionList],[ Condition|ConditionList],
@@ -270,7 +270,14 @@ create_sequence(States,[Action|ActionList],[ Condition|ConditionList],
     get_the_action(States,Action, _Pre, AddList, DelList, _ENDCOND),
     apply_rule(Action, AddList, DelList, States, States_2),
      create_sequence(States_2, ActionList, ConditionList, Sequence).
+*/
+create_sequence(_,[],_,[]).
 
+create_sequence(States,[Action|ActionList],[ Condition|ConditionList],
+                [ (Condition, retractall(goal(_))),(true, assert_goal(Action)),(true,retract_states(DelList)), (true, assert_states(AddList))|Sequence]):-
+    get_the_action(States,Action, _Pre, AddList, DelList, _ENDCOND),
+    apply_rule(Action, AddList, DelList, States, States_2),
+    create_sequence(States_2, ActionList, ConditionList, Sequence).
 
 
 launch_sequence(Sequence, ID):-

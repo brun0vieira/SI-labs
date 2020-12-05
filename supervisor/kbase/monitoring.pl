@@ -58,7 +58,7 @@ defrule time_of_event_y_is_at
 %test if actuador xx is moving past x=10
 defrule beyond_last_sensor_error_x
      if goal(action(move_x_right))
-          and not(failure(x10_failure, ,, _, _))    %avoid avalancche of failure facts
+          and not(failure(x10_failure,_,_,_,_))    %avoid avalancche of failure facts
           and not(x_is_at(_))
           and x_is_near(X)
           and (X>10)
@@ -76,7 +76,7 @@ defrule beyond_last_sensor_error_x
 %test if actuator xx is moving past x=1
 defrule beyond_first_sensor_error_x
      if goal(action(move_x_left))
-        and not(failure(x1_failure, , ,_,_))
+        and not(failure(x1_failure,_,_,_,_))
         and not(x_is_at(_))
         and x_is_near(X)
         and (X<1)
@@ -92,7 +92,7 @@ defrule beyond_first_sensor_error_x
 %test if actuator zz is moving past x=5
 defrule beyond_last_sensor_error_z
      if goal(action(move_z_up))
-         and not(failure(z5_failure, , ,_,_))
+         and not(failure(z5_failure,_,_,_,_))
          and not(z_is_at(_))
          and z_is_near(Z)
          and (Z>5)
@@ -108,7 +108,7 @@ defrule beyond_last_sensor_error_z
 %test if actuator zz is moving past z=1
 defrule beyond_first_sensor_error_z
      if goal(action(move_z_down))
-         and not(failure(z1_failure, , ,_,_))
+         and not(failure(z1_failure,_,_,_,_))
          and not(z_is_at(_))
          and z_is_near(Z)
          and (Z<1)
@@ -124,7 +124,7 @@ defrule beyond_first_sensor_error_z
 %test if actuator yy is moving past y=3
 defrule beyond_last_sensor_error_y
      if goal(action(move_y_inside))
-         and not(failure(y3_failure, , ,_,_))
+         and not(failure(y3_failure,_,_,_,_))
          and not(y_is_at(_))
          and y_is_near(Y)
          and (Y>3)
@@ -140,7 +140,7 @@ defrule beyond_last_sensor_error_y
 %test if actuator yy is moving past y=1
 defrule beyond_first_sensor_error_y
      if goal(action(move_y_outside))
-         and not(failure(y1_failure, , ,_,_))
+         and not(failure(y1_failure,_,_,_,_))
          and not(y_is_at(_))
          and y_is_near(Y)
          and (Y<1)
@@ -155,7 +155,7 @@ defrule beyond_first_sensor_error_y
 
 defrule loading_to_lift_no_part_left
      if monitoring_left_part(Block)
-        and not(failure(no_part_station_failure, , ,_,_))
+        and not(failure(no_part_station_failure,_,_,_,_))
         and not(is_part_at_left_station)
      then [
          get_warehouse_states(States),
@@ -168,7 +168,7 @@ defrule loading_to_lift_no_part_left
 
 defrule loading_to_lift_no_part_right
      if monitoring_right_part(Block)
-        and not(failure(no_part_station_failure, , ,_,_))
+        and not(failure(no_part_station_failure,_,_,_,_))
         and not(is_part_at_right_station)
      then [
          get_warehouse_states(States),
@@ -178,16 +178,43 @@ defrule loading_to_lift_no_part_right
          assert(failure(no_part_station_failure,Time_now,'Loading into lift without part at right station',States,Goals))
          %,writeq(failure(no_part_station_failure,Time_now,'Loading into lift without part at right station',States,Goals))
      ].
-/*
-defrule loading_to_lift_empty_cage
-     if goal(action(move_z_down)) and
-        not(failure(empty_cage_failure, , ,_,_))
-        and not(cage_has_part)
-        and cage(_)
-        and y_is_at(2)
 
+defrule give_left_station_occupied
+    if monitoring_give_lstation(Block)
+       and not(failure(left_station_occupied_failure,_,_,_,_))
+       and is_part_at_left_station
+    then [
+        assert(cage(Block)),
+        get_warehouse_states(States),
+        retract_safe(monitoring_give_lstation(Block)),
+        findall(goal(G),goal(G),Goals),
+        get_time(Time_now),
+        assert(failure(left_station_occupied_failure,Time_now,'The left station is occupied',States,Goals))
+        %,writeq(failure(left_station_occupied_failure,Time_now,'The left station is occupied',States,Goals))
+    ].
+
+defrule give_right_station_occupied
+    if monitoring_give_rstation(Block)
+       and not(failure(right_station_occupied_failure,_,_,_,_))
+       and is_part_at_right_station
+    then [
+        assert(cage(Block)),
+        get_warehouse_states(States),
+        retract_safe(monitoring_give_rstation(Block)),
+        findall(goal(G),goal(G),Goals),
+        get_time(Time_now),
+        assert(failure(right_station_occupied_failure,Time_now,'The right station is occupied',States,Goals))
+        %,writeq(failure(right_station_occupied_failure,Time_now,'The right station is occupied',States,Goals))
+    ].
+
+
+/*defrule loading_to_lift_empty_cage_left
+     if monitoring_empty_cage(Block)
+         and not(failure(empty_cage_failure, , ,_,_))
+         and not(cage_has_part)
      then [
          get_warehouse_states(States),
+         retract_safe(monitoring_empty_cage(Block)),
          findall(goal(G),goal(G),Goals),
          get_time(Time_now),
          assert(failure(empty_cage_failure,Time_now,'Empty lift after load from station',States,Goals))
@@ -223,3 +250,10 @@ save_management_states:-
     told.
 
 */
+
+
+
+
+
+
+

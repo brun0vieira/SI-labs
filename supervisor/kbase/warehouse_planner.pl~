@@ -37,8 +37,8 @@ act give_part_left_station(Block)
       del [cage(Block)]
       endcond [not(cage_has_part),y_is_at(2),is_at_z_down].
 
-act pick_closest_part(X,Z,Block)
-      pre [not(cell(_,_,Block)),not(cage(_)),x_is_at(X),z_is_at(Z)]
+act pick_closest_part(Block)
+      pre [not(cell(_,_,Block)),not(cage(_))]
       add [cage(Block)]
       del []
       endcond [cage_has_part,y_is_at(2),is_at_z_down].
