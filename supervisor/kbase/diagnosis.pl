@@ -1,10 +1,12 @@
 
 diag(failure(x10_failure, _TimeStamp, _Description, _States, _Goals)):-
+    %assert(action(stop_x)),
     Sequence=[
         (    true,         assert(action(move_x_left))  ),
         (    x_is_at(_),   assert(action(stop_x))      )
     ],
     new_id(ID),
+    %not(failure(x10_failure, TimeStamp, Description, States, Goals)),
     assert(sequence(ID, recovery_x_10, Sequence)),
     assert(plan_to_json(Sequence)).
 

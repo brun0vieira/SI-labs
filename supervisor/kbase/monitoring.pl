@@ -4,6 +4,7 @@
 
 :-dynamic x_before/1, y_before/1, z_before/1.
 :-dynamic x_is_near/1, y_is_near/1, z_is_near/1.
+:-dynamic cell/3, cage/1.
 
 
 defrule x_position_estimation
@@ -173,5 +174,8 @@ save_management_states:-
     listing(y_is_near),
     listing(z_before),
     listing(z_is_near),
+    listing(cell),
+    listing(cage),
     told.
+
 */

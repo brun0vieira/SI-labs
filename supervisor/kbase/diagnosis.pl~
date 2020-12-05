@@ -1,10 +1,12 @@
 
-diag(failure(x10_failure, _TimeStamp, _Description, _States, _Goals)):-
+diag(failure(x10_failure, TimeStamp, Description, States, Goals)):-
+    assert(action(stop_x)),
     Sequence=[
         (    true,         assert(action(move_x_left))  ),
         (    x_is_at(_),   assert(action(stop_x))      )
     ],
     new_id(ID),
+    not(failure(x10_failure, TimeStamp, Description, States, Goals)),
     assert(sequence(ID, recovery_x_10, Sequence)),
     assert(plan_to_json(Sequence)).
 
@@ -52,15 +54,6 @@ diag(failure(y3_failure, _TimeStamp, _Description, _States, _Goals)):-
     new_id(ID),
     assert(sequence(ID,recovery_y_3,Sequence)),
     assert(plan_to_json(Sequence)).
-
-/*
-save_management_states:-
-    tell('management_states.pl'),
-
-    %listing(),
-
-    told.
-*/
 
 
 
