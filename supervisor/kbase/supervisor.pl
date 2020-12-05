@@ -38,7 +38,7 @@
 :-dynamic x_moving/1, y_moving/1, z_moving/1, left_station_moving/1, right_station_moving/1.
 :-dynamic is_at_z_up/0, is_at_z_down/0, is_part_at_left_station/0, is_part_at_right_station/0, cage/0, cage_has_part/0.
 
-
+/*:-dynamic recover_seq/3.*/
 
 main:- start_server(8083).
 main(_):-

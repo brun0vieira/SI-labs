@@ -153,7 +153,53 @@ defrule beyond_first_sensor_error_y
          %,writeq(failure(y1_failure,Time_now,'Moving beyond y=1',States,Goals))
      ].
 
+defrule loading_to_lift_no_part_left
+     if goal(action(move_y_outside))
+        and not(failure(no_part_station_failure, , ,_,_))
+        and not(is_part_at_left_station)
+        and y_is_at(1)
+        and is_at_z_down
+        and x_is_at(1)
+        and y_moving(0)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(no_part_station_failure,Time_now,'Loading into lift without part at left station',States,Goals))
+         %,writeq(failure(no_part_station_failure,Time_now,'Loading into lift without part at left station',States,Goals))
+     ].
 
+defrule loading_to_lift_no_part_right
+     if goal(action(move_y_outside))
+        and not(failure(no_part_station_failure, , ,_,_))
+        and not(is_part_at_right_station)
+        and y_is_at(1)
+        and is_at_z_down
+        and x_is_at(10)
+        and y_moving(0)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(no_part_station_failure,Time_now,'Loading into lift without part at right station',States,Goals))
+         %,writeq(failure(no_part_station_failure,Time_now,'Loading into lift without part at right station',States,Goals))
+     ].
+/*
+defrule loading_to_lift_empty_cage
+     if goal(action(stop_z)) and
+        not(failure(empty_cage_failure, , ,_,_))
+        and not(cage_has_part)
+        and cage(_)
+        and y_is_at(2)
+     then [
+         get_warehouse_states(States),
+         findall(goal(G),goal(G),Goals),
+         get_time(Time_now),
+         assert(failure(empty_cage_failure,Time_now,'Empty lift after load from station',States,Goals))
+         %,writeq(failure(empty_cage_failure,Time_now,'Empty lift after load from station'',States,Goals))
+
+     ].
+*/
 defrule diagnose_failures_rule
      if failure(Type, TimeStamp, Description, States, Goals)
      then[
@@ -162,7 +208,8 @@ defrule diagnose_failures_rule
             _Ignore2),
          retract(Failure),
          % save the failure to be shown in the html UI-console(NEXT CLASS)
-         assert(failures_to_json(Failure)),
+         %assert(failures_to_json(Failure)),
+         assert_once(failures_to_json(Failure)),
          writeln(Failure)
       ].
 /*
