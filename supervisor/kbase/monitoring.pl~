@@ -194,12 +194,13 @@ defrule give_left_station_occupied
     ].
 
 defrule give_right_station_occupied
-    if monitoring_give_rstation
+    if monitoring_give_rstation(Block)
        and not(failure(right_station_occupied_failure,_,_,_,_))
        and is_part_at_right_station
     then [
+        assert(cage(Block)),
         get_warehouse_states(States),
-        retract_safe(monitoring_give_rstation),
+        retract_safe(monitoring_give_rstation(Block)),
         findall(goal(G),goal(G),Goals),
         get_time(Time_now),
         assert(failure(right_station_occupied_failure,Time_now,'The right station is occupied',States,Goals))
@@ -218,7 +219,6 @@ defrule give_right_station_occupied
          get_time(Time_now),
          assert(failure(empty_cage_failure,Time_now,'Empty lift after load from station',States,Goals))
          %,writeq(failure(empty_cage_failure,Time_now,'Empty lift after load from station'',States,Goals))
-
      ].
 */
 
@@ -247,8 +247,9 @@ save_management_states:-
     listing(cell),
     listing(cage),
     told.
-
 */
+
+
 
 
 

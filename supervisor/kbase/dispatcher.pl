@@ -199,7 +199,7 @@ defrule actions_into_monitoring_goals
      ].
 
 % Blocks world
-
+/*
 defrule pickup
      if pickup(Block) and cell(X,Z,Block)
      then [
@@ -257,8 +257,14 @@ defrule unstack(A,B)
         ],
         assert(sequence(ID,unstack_seq,Seq))
 
-    ].
-/*
+    ].*/
+
+    /*
+
 defrule save_states
     if true then [ save_management_states ].
 */
+
+
+
+

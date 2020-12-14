@@ -219,7 +219,6 @@ defrule give_right_station_occupied
          get_time(Time_now),
          assert(failure(empty_cage_failure,Time_now,'Empty lift after load from station',States,Goals))
          %,writeq(failure(empty_cage_failure,Time_now,'Empty lift after load from station'',States,Goals))
-
      ].
 */
 
@@ -248,8 +247,9 @@ save_management_states:-
     listing(cell),
     listing(cage),
     told.
-
 */
+
+
 
 
 

@@ -1,4 +1,3 @@
-
 diag(failure(x10_failure, TimeStamp, Description, States, Goals)):-
     Sequence=[
         (    true, assert(action(stop_x))),
@@ -96,18 +95,3 @@ diag(failure(right_station_occupied_failure,TimeStamp,Description,States,Goals))
     assert(sequence(ID,recovery_rstation_occupied,Sequence)),
     retract((failure(right_station_occupied_failure,TimeStamp,Description,States,Goals))),
     assert(plan_to_json(Sequence)).
-
-
-/*
-diag(failure(empty_cage_failure, TimeStamp, Description, States, Goals)):-
-    Sequence=[
-        (   true, assert(action(stop_z)) ),
-        (   not(failures_to_json(failure(empty_cage_failure, TimeStamp, Description, States, Goals))), assert(action(move_y_outside))),
-        (   y_is_at(1), assert(action(stop_y)))
-    ],
-    new_id(ID),
-    assert(sequence(ID,recovery_empty_cage,Sequence)),
-    retractnot(failure(empty_cage_failure,TimeStamp, Description, States, Goals)),
-    assert(plan_to_json(Sequence)).
-*/
-

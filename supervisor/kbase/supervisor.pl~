@@ -1,6 +1,8 @@
 :-ensure_loaded('web_services').
 :-ensure_loaded('warehouse_planner').
 
+
+
 :- http_handler(root(execute_remote_query ), execute_remote_query    , []).
 :- http_handler(root(query_dispatcher_json), query_dispatcher_json   , []).
 
@@ -13,13 +15,12 @@
 
 :- http_handler(root(query_convert), query_convert, []).
 
-
-
 :-include('dispatcher.pl').  % usando o "consult" apaga as regras dos outros m�dulos
 :-include('monitoring.pl').
 :-include('diagnosis.pl').
 /*:-include('management_states.pl').*/
 :-include('recovery.pl').
+:-include('blocks_world.pl').
 
 :-dynamic res_sult/1.
 :-dynamic action/1.
@@ -38,7 +39,7 @@
 :-dynamic x_moving/1, y_moving/1, z_moving/1, left_station_moving/1, right_station_moving/1.
 :-dynamic is_at_z_up/0, is_at_z_down/0, is_part_at_left_station/0, is_part_at_right_station/0, cage/0, cage_has_part/0.
 
-:-dynamic recover_seq/3.
+/*:-dynamic recover_seq/3.*/
 
 main:- start_server(8083).
 main(_):-
@@ -48,8 +49,6 @@ main(_):-
 start_server(Port):-
     server(Port),
     writeln('server started...').
-
-
 
 :- json_object
     dispatch(action_name:atom) + [type=dispatch].
@@ -66,6 +65,7 @@ execute_query([query=QueryString],Result):-
     ),
     [Result|_]=L,
     !.
+
 execute_query(_,false).
 
 %NOVA VERSAO

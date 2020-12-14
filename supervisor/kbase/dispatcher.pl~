@@ -83,8 +83,8 @@ defrule give_part_right
          new_id(ID),
          Seq = [
              (   true, assert(goto_xz(10,1))),
-             (   (x_is_at(10),z_is_at(1)), assert(action(move_z_up)), assert(monitoring_give_rstation)),
-             (   is_at_z_up, assert(action(stop_z)), retract(monitoring_give_rstation)),
+             (   (x_is_at(10),z_is_at(1)), assert(action(move_z_up)), assert(monitoring_give_rstation(Block))),
+             (   is_at_z_up, assert(action(stop_z)), retract(monitoring_give_rstation(Block))),
              (   (is_at_z_up,z_moving(0)), assert(goto_y(1))),
              (   y_is_at(1), assert(action(move_z_down))),
              (   is_at_z_down, assert(action(stop_z))),

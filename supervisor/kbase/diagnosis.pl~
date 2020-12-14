@@ -83,7 +83,6 @@ diag(failure(left_station_occupied_failure,TimeStamp,Description,States,Goals)):
         (   not(failures_to_json(failure(left_station_occupied_failure, TimeStamp, Description, States, Goals))), write('\e[2J'), writeln('Human: please EJECT piece at left station!!'))
     ],
     new_id(ID),
-    assert(cage(_Block)),
     assert(sequence(ID,recovery_lstation_occupied,Sequence)),
     retract((failure(left_station_occupied_failure,TimeStamp,Description,States,Goals))),
     assert(plan_to_json(Sequence)).
@@ -98,6 +97,15 @@ diag(failure(right_station_occupied_failure,TimeStamp,Description,States,Goals))
     retract((failure(right_station_occupied_failure,TimeStamp,Description,States,Goals))),
     assert(plan_to_json(Sequence)).
 
+diag(failure(no_part_in_lift_failure,TimeStamp,Description,States,Goals)):-
+    Sequence=[
+        (   true, assert(action(stop_z))),
+        (   not(failures_to_json(failure(right_station_occupied_failure, TimeStamp, Description, States, Goals))), write('\e[2J'), writeln('Human: Operation not possible! Lift has no part!'))
+    ],
+    new_id(ID),
+    assert(sequence(ID,recovery_no_part_in_lift,Sequence)),
+    retract((failure(no_part_in_lift_failure,TimeStamp,Description,States,Goals))),
+    assert(plan_to_json(Sequence)).
 
 /*
 diag(failure(empty_cage_failure, TimeStamp, Description, States, Goals)):-
