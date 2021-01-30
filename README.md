@@ -1,3 +1,3 @@
 # SI-labwork1
-Intelligent Supervision - College Assignments
+College Assignments - Intelligent Supervision
 
